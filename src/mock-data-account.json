@@ -1,0 +1,32 @@
+[
+    {
+      "email": "usersample@gmail.com",
+      "status": "Aprroved",
+      "date": "12 November 2022",
+      "accessbility": true
+    },
+    {
+        "email": "usersample2@gmail.com",
+      "status": "Need Approval",
+      "date": "12 November 2022",
+      "accessbility": false
+    },
+    {
+        "email": "usersample3@gmail.com",
+      "status": "Aprroved",
+      "date": "12 November 2022",
+      "accessbility": true
+    },
+    {
+        "email": "usersample4@gmail.com",
+      "status": "Aprroved",
+      "date": "12 November 2022",
+      "accessbility": true
+    },
+    {
+        "email": "usersample5@gmail.com",
+      "status": "Aprroved",
+      "date": "12 November 2022",
+      "accessbility": true
+    }
+  ]

@@ -20,9 +20,7 @@ export const NavLink = styled(Link)`
   height: 100%;
   font-weight:bold;
   cursor: pointer;
-  &.active {
-    opacity: 0.7;
-  }
+  
 `;
   
 export const Bars = styled(FaBars)`

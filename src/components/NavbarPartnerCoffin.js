@@ -14,16 +14,16 @@ const NavbarPartCof=() =>{
     
       <Nav>
         <NavMenu>
-          <NavLink to="/partner/coffin/service" activeStyle style={{marginLeft:"-20rem", whiteSpace:'nowrap'}}>
-            Funeral Service
-          </NavLink>
-          <NavLink to="/partner/coffin/transaction" activeStyle style={{whiteSpace: "nowrap"}}>
-            Funeral Transaction
+          {/* <NavLink to="/partner/coffin/service" activeStyle style={{marginLeft:"0rem", whiteSpace:'nowrap'}}>
+            Coffin Service
+          </NavLink> */}
+          <NavLink to="/partner/coffin/transaction" activeStyle style={{marginLeft:"0rem", whiteSpace: "nowrap"}}>
+            Coffin Transaction
           </NavLink>
           <NavLink to="/partner/coffin/service_data" activeStyle style={{whiteSpace: "nowrap"}}>
-            Funeral Service Data
+            Coffin Service Data
           </NavLink>
-          <NavLink to="/edit_profile" activeStyle style={{marginLeft:"70rem"}}>
+          <NavLink to="/edit_profile" activeStyle style={{marginLeft:"0rem"}}>
             EditProfile
           </NavLink>
         </NavMenu>

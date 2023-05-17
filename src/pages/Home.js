@@ -1,9 +1,13 @@
 import { useNavigate, Link } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import AuthContext from "../components/AuthProvider";
 
 const Home = () => {
     const { setAuth } = useContext(AuthContext);
+    const [token,setToken]=useState(null);
+    useEffect(()=>{
+        localStorage.getItem('token');
+    },[])
     const navigate = useNavigate();
 
     const logout = async () => {
@@ -19,7 +23,7 @@ const Home = () => {
             <br />
             <p>You are logged in!</p>
             <br />
-            <Link to="/editor">Go to the Editor page</Link>
+            <Link to="/partner">Go to the Partner page</Link>
             <br />
             <Link to="/admin">Go to the Admin page</Link>
             <br />

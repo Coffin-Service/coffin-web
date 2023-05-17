@@ -1,7 +1,7 @@
 import React from "react";
 import { Nav, NavLink, NavMenu } 
     from "./NavbarElements";
-    
+
 // const root = ReactDOM.createRoot(document.getElementById('root'));
 // root.render(
 //   <React.StrictMode>
@@ -14,7 +14,7 @@ const NavbarPartFun=() =>{
     
       <Nav>
         <NavMenu>
-          <NavLink to="/partner/funeral/service" activeStyle style={{marginLeft:"-20rem", whiteSpace:'nowrap'}}>
+          <NavLink to="/partner/funeral/service" activeStyle style={{marginLeft:"0rem", whiteSpace:'nowrap'}}>
             Funeral Service
           </NavLink>
           <NavLink to="/partner/funeral/transaction" activeStyle style={{whiteSpace: "nowrap"}}>
@@ -23,7 +23,7 @@ const NavbarPartFun=() =>{
           <NavLink to="/partner/funeral/service_data" activeStyle style={{whiteSpace: "nowrap"}}>
             Funeral Service Data
           </NavLink>
-          <NavLink to="/edit_profile" activeStyle style={{marginLeft:"70rem"}}>
+          <NavLink to="/edit_profile" activeStyle style={{marginLeft:"0rem"}}>
             EditProfile
           </NavLink>
         </NavMenu>

@@ -1,13 +1,20 @@
-import React from "react"
+import { Link } from "react-router-dom"
+import NavbarPartnerFuneral from "../../components/NavbarPartnerFuneral"
 
-const PartFunServ = () => {
-  return (
-    <div>
-      <h1>
-        This is Funeral Service Page for Partner
-      </h1>
-    </div>
-  );
-};
+const PartFun = () => {
+    return (
+        <>
+            <NavbarPartnerFuneral/>
+            <section>
+                <h1>Partner Funeral Page</h1>
+                <br />
+                <p>You must have been assigned an Partner Funeral role.</p>
+                <div className="flexGrow">
+                    <Link to="/">Home</Link>
+                </div>
+            </section>
+        </>
+    )
+}
 
-export default PartFunServ;
+export default PartFun

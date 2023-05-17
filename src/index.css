@@ -14,14 +14,14 @@ html {
 
 body {
     min-height: 100vh;
-    background-color: dodgerblue;
+    background-color: white;
 }
 
 .App {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  /* justify-content: center; */
+  /* align-items: center; */
   min-height: 100vh; 
   padding: 1rem 0.5rem;
 }
@@ -120,7 +120,68 @@ button {
     align-items: flex-end;
 }
 
+.center{
+    margin: auto;
+    color: black;
+}
 
+table{
+    width: 90%;
+}
+
+th,
+td{
+    /* border-bottom: 1px solid black; */
+    padding: 0.1rem;
+}
+
+.custom_border{
+    border-bottom: 1px solid black;
+}
+li{
+    display: inline;
+    padding: 0.5rem;
+}
+
+.custom_table{
+    white-space:nowrap;
+    width:100%;
+    
+}
+
+.custom_rowName{
+    width: 30%;
+}
+.custom_rowDesc{
+    width: 60%
+}
+
+.custom_cell{
+    padding: 1% 5% 1% 5%;
+    /* overflow: hidden; */
+    text-overflow: ellipsis;
+}
+
+.custom_tablePackage{
+    width: 100%;
+}
+
+.custom_rowPackageName{
+    width:30%;
+    text-align: left;
+}
+.custom_rowCategory{
+    width: 60%;
+    text-align: left;
+}
+
+.custom_rowAddMore{
+    width:40%;
+}
+
+.default_black{
+    color:black;
+}
 
 /* body {
   margin: 0;

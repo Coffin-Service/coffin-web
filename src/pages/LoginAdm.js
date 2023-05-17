@@ -6,9 +6,8 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import axios from '../components/axios.js';
 import AuthContext from '../components/AuthProvider.js';
 const LOGIN_URL = 'https://coffin-server-production.up.railway.app/api/employee/auth/login';
-const LOGIN_DETAIL_URL = 'https://coffin-server-production.up.railway.app/api/employee/me';
 
-const Login = () => {
+const LoginAdm = () => {
   const { auth,setAuth } = useAuth();
 
   const navigate = useNavigate();
@@ -23,7 +22,6 @@ const Login = () => {
   const [errMsg, setErrMsg] = useState('');
 
   const [token,setToken]=useState([]);
-  const [loginDetail,setLoginDetail]=useState([]);
 
   useEffect(() => {
       userRef.current.focus();
@@ -39,11 +37,6 @@ const Login = () => {
 
     }
   },[auth])
-
-  useEffect(()=>{
-    getLoginDetailRole();
-  },[])
-
   const handleSubmit = async (e) => {
       e.preventDefault();
       
@@ -52,13 +45,24 @@ const Login = () => {
             { email:email, password:pwd },
             {}
           )
+          //   .then(response=>{
+              //     const {token} = response.data.access_token;
+              
+              //     localStorage.setItem('token',token);
+              //     localStorage.getItem('token');
+              //     // dispatchEvent()
+              //   }).catch(err=>{
+                  //     if(err) {console.log(err)}
+                  //   })
+                  ;
+                  
+                //   console.log(JSON.stringify(response?.data));
+                //   console.log(JSON.stringify(response?.data.message));
+                //   console.log(JSON.stringify(response?.data.data.access_token));
+                  //console.log(JSON.stringify(response));
                   const accessToken = response?.data.data.access_token;
+                  const roles = "Admin";
                   localStorage.setItem('token',accessToken);
-                //   const getToken = await getLoginDetailRole();
-                  const roles = loginDetail.name;
-                  console.log(loginDetail);
-                  console.log(loginDetail.name);
-                  console.log(roles);
                   setAuth({email, pwd, roles, accessToken });
                   setEmail('');
                   setPwd('');
@@ -76,18 +80,6 @@ const Login = () => {
                     }
                     errRef.current.focus();
                 }
-            }
-        
-            function getLoginDetailRole(){
-                console.log(localStorage.getItem('token'));
-                const AuthToken = 'Bearer '.concat(localStorage.getItem('token'))
-                const getRole = axios.get(LOGIN_DETAIL_URL,{
-                    headers:{'Authorization':AuthToken}
-                  })
-                    .then(res=>setLoginDetail(res.data.data))
-                    // .then(res=>console.log(res.data.data))
-                    // .then(data=>console.log(data))
-                    .catch(err=>console.log(err))
             }
             // useEffect(()=>{
             //     const token = JSON.parse(localStorage.getItem('token'));
@@ -134,7 +126,7 @@ const Login = () => {
   )
 }
 
-export default Login
+export default LoginAdm
 
 
 // import React from "react"

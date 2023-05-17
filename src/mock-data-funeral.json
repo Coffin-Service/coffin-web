@@ -1,0 +1,30 @@
+[
+    {
+        "packageName":"Premium Cremations",
+        "category":"VIP",
+        "categoryName":"Indoor Burning",
+        "price":"6.000.000",
+        "facility":"Wi-fi SmokingArea AirConditioner Food Room Cafeteria"
+    },
+    {
+        "packageName":"Premium Cremations",
+        "category":"Regular",
+        "categoryName":"Outdoor Burning",
+        "price":"4.000.000",
+        "facility":"Wi-fi Food Room"
+    },
+    {
+        "packageName":"Premium Burial",
+        "category":"Regular",
+        "categoryName":"Outdoor Room",
+        "price":"5.000.000",
+        "facility":"Wi-fi Room"
+    },
+    {
+        "packageName":"Regular Burial",
+        "category":"Regular",
+        "categoryName":"Outdoor Room",
+        "price":"2.500.000",
+        "facility":"Room"
+    }
+  ]

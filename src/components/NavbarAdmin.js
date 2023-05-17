@@ -1,7 +1,8 @@
 import React from "react";
 import { Nav, NavLink, NavMenu } 
     from "./NavbarElements";
-    
+
+import "./styles.css"
 // const root = ReactDOM.createRoot(document.getElementById('root'));
 // root.render(
 //   <React.StrictMode>
@@ -10,19 +11,44 @@ import { Nav, NavLink, NavMenu }
 // );
 
 const NavbarAdmin=() =>{
+  const selectedLink = ""
+  const normalLink = ""
   return(
     
       <Nav>
         <NavMenu>
-          <NavLink to="/admin/transaction/funeral" activeStyle style={{marginLeft:"-20rem"}}>
-            Transaction
-          </NavLink>
-          <NavLink to="/admin/account_management/user" activeStyle style={{whiteSpace: "nowrap"}}>
-            Account Management
-          </NavLink>
-          <NavLink to="/edit_profile" activeStyle style={{marginLeft:"70rem"}}>
-            EditProfile
-          </NavLink>
+          <div className="selectedLink">
+
+            <NavLink 
+              style={({ isActive }) => ({
+                color: isActive ? 'red' : 'black',
+                background: isActive ? 'yellow' : 'white',
+              })}
+              to="/admin/transaction" 
+              >
+              Transaction
+            </NavLink>
+          
+            <NavLink
+              style={({ isActive }) => ({
+                color: isActive ? 'red' : 'black',
+                background: isActive ? 'yellow' : 'white',
+              })}
+              to="/admin/account_management"
+              >
+              Account Management
+            </NavLink>
+
+            <NavLink 
+              style={({ isActive }) => ({
+                color: isActive ? 'red' : 'black',
+                background: isActive ? 'yellow' : 'white',
+              })}
+            >
+              EditProfile
+            </NavLink>
+            {/* to="/edit_profile" */}
+          </div>
         </NavMenu>
       </Nav>
   );

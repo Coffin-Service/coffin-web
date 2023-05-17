@@ -1,13 +1,20 @@
-import React from "react"
+import { Link } from "react-router-dom"
+import NavbarPartnerCoffin from "../../components/NavbarPartnerCoffin"
 
-const PartCofServ = () => {
-  return (
-    <div>
-      <h1>
-        This is Coffin Service Page for Partner
-      </h1>
-    </div>
-  );
-};
+const PartCof = () => {
+    return (
+        <>
+            <NavbarPartnerCoffin/>
+            <section>
+                <h1>Partner Coffin Page</h1>
+                <br />
+                <p>You must have been assigned an Partner Coffin role.</p>
+                <div className="flexGrow">
+                    <Link to="/">Home</Link>
+                </div>
+            </section>
+        </>
+    )
+}
 
-export default PartCofServ;
+export default PartCof

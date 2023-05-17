@@ -6,7 +6,7 @@ import { useEffect,useRef,useState } from "react";
 
 const PROF_URL = 'https://coffin-server-production.up.railway.app/api/employee/me/update-profile';
 
-const EditProfile = () => {
+const EditProfilePwd = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
@@ -84,26 +84,7 @@ const EditProfile = () => {
           <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
           <h1>Edit</h1>
           <form style={{justifyContent:"center"}} onSubmit={handleSubmit}>
-          <label htmlFor="email">Email:</label>
-              <input
-                  type="text"
-                  id="email"
-                  autoComplete="off" 
-                  ref={userRef}
-                  onChange={(e) => setEmail(e.target.value)}
-                  value={email}
-                  required
-              />
-
-              <label htmlFor="name">Name:</label>
-              <input
-                  type="text"
-                  id="name"
-                  autoComplete="off" 
-                  onChange={(e) => setName(e.target.value)}
-                  value={name}
-                  required
-              />
+          
 
               <label htmlFor="password">Password:</label>
               <input
@@ -121,4 +102,4 @@ const EditProfile = () => {
   );
 };
 
-export default EditProfile;
+export default EditProfilePwd;
