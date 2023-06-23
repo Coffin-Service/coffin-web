@@ -104,7 +104,7 @@ function App() {
 
         {/* we want to protect these routes */}
         {/* <Route element={<RequireAuth allowedRoles={[ROLES.User]} />}> */}
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Login />} />
         {/* </Route> */}
 
         <Route path="partner" element={<Partner />} />
