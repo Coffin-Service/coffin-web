@@ -1,8 +1,8 @@
 .selectedLink{
     display: flex;
     text-decoration: none;
-    color: black;
-    background-color: black;
+
+
 }
 
 a{
@@ -10,11 +10,11 @@ a{
 }
 
 .selectedLink a.active{
-    color:red;
-    background-color: yellow;
+    color:gray;
+
 }
 .selectedLink a.inactive{
-    color: black;
-    background-color: white;
+
+
 }
 

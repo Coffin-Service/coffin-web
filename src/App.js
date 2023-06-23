@@ -14,7 +14,7 @@ import RequireAuth from './pages/RequireAuth';
 import EditProfile from './pages/editprof';
 import EditProfilePwd from './pages/editprof_pwd.js';
 import AdminAcc from './pages/AdminUser.js';
-import AdminTrans from './AdminTrans.js';
+import AdminTrans from './pages/AdminTrans.js';
 
 import AdmFunHistory from './pages/admin/admfunhis';
 import AdmCofHistory from './pages/admin/admcofhis';
@@ -28,6 +28,7 @@ import PartFunServ from './pages/partner_funeral/partfunserv';
 import PartFunServEdit from './pages/partner_funeral/partfunservedit.js';
 import PartFunServHis from './pages/partner_funeral/partfunhis';
 import PartFunServHisDet from './pages/partner_funeral/partfunhisdet';
+import PartFunServDataHisEdit from './pages/partner_funeral/partfundatahisAdd.js';
 import PartFunServDataHis from './pages/partner_funeral/partfundatahis';
 import PartFunServDataHisDet from './pages/partner_funeral/partfundatahisdet';
 import PartCof from './pages/partner_coffin/partcof';
@@ -43,7 +44,7 @@ import axios from './components/axios.js';
 
 const ROLES = {
   'Coffin': 'Coffin',
-  'Funeral':'Funeral',
+  'Funeral':'funeral',
   'Admin': 'Admin'
 }
 
@@ -53,12 +54,13 @@ const baseURL="https://coffin-server-production.up.railway.app/api/employee/heal
 
 function App() {
   const[posts,setPosts]=useState([]);
-  useEffect(()=>{
+
+  // useEffect(()=>{
     
-    axios.get(baseURL)
-      .then((response)=>{
-        setPosts(response.data);
-      })
+  //   axios.get(baseURL)
+  //     .then((response)=>{
+  //       setPosts(response.data);
+  //     })
       // .then((data)=>{
       //   console.log(data);
       // })
@@ -79,7 +81,7 @@ function App() {
     //   .catch((err)=>{
     //     console.log(err.message);
     //   })
-  },[]);
+  // },[]);
 
   // if(!token){
   //   return <Login setToken={setToken}/>
@@ -87,7 +89,7 @@ function App() {
 
   return (
     <div>
-    <h1>{posts.status}</h1>
+    {/* <h1>{posts.status}</h1> */}
     <Routes>
       <Route path="/" element={<Layout />}>
         {/* public routes */}
@@ -113,17 +115,18 @@ function App() {
           <Route path='/partner/funeral/transaction' element={<PartFunServHis/>}/>
           <Route path='/partner/funeral/transaction/detail/' element={<PartFunServHisDet/>}/>
           <Route path='/partner/funeral/service_data' element={<PartFunServDataHis/>}/>
+          <Route path='/partner/funeral/service_data/add' element={<PartFunServDataHisEdit/>}/>
           <Route path='/partner/funeral/service_data/detail' element={<PartFunServDataHisDet/>}/>
         {/* </Route> */}
 
-        <Route element={<RequireAuth allowedRoles={[ROLES.Coffin]} />}>
+        {/* <Route element={<RequireAuth allowedRoles={[ROLES.Coffin]} />}> */}
           <Route path='/partner/coffin' element={<PartCof/>}/>
           <Route path='/partner/coffin/service' element={<PartCofServ/>}/>
           <Route path='/partner/coffin/transaction' element={<PartCofServHis/>}/>
           <Route path='/partner/coffin/transaction/detail' element={<PartCofServHisDet/>}/>
           <Route path='/partner/coffin/service_data' element={<PartCofServDataHis/>}/>
-          <Route path='/partner/coffin/ service_data/detail' element={<PartCofServDataHisDet/>}/>
-        </Route>
+          <Route path='/partner/coffin/service_data/detail' element={<PartCofServDataHisDet/>}/>
+        {/* </Route> */}
 
 
         {/* <Route element={<RequireAuth allowedRoles={[ROLES.Admin]} />}> */}

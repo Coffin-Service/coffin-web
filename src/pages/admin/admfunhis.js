@@ -1,21 +1,47 @@
-import React, {createContext, useState} from "react"
+import React, {createContext, useEffect, useState} from "react"
 import { Link, useNavigate } from "react-router-dom"
 import data from "../../mock-data.json"
 import NavbarAdmin from "../../components/NavbarAdmin";
 import Admin from "../Admin";
 import AdmFunDetail from "./admfundet";
 import { click } from "@testing-library/user-event/dist/click";
-import AdminTrans from "../../AdminTrans";
+import AdminTrans from "../AdminTrans";
+import axios from "../../components/axios";
+import dateFormat from "dateformat";
 
 // const idTrans= createContext();
+const BASE_URL="https://coffin-server-production.up.railway.app/";
+const ADM_URL=`${BASE_URL}api/employee/transactions`;
 
 const AdmFunHistory = () => {
 
   const [trans,setTrans]=useState(data);
+  const [admList,setAdmList]=useState([]);
 
   const [active,setActive]=useState(true);
+  const AuthToken = 'Bearer '.concat(localStorage.getItem('token'));
+
   const handleClick = () => {
     setActive(!active);
+  }
+    useEffect(()=>{
+      // console.log(localStorage.getItem('token'));
+      getData();
+      // console.log(funList);
+    },[])
+
+  function getData(){
+    const admAPI = axios.get(ADM_URL+'?type=funeral',
+      {
+        headers:{'Authorization':AuthToken}
+      })
+        .then(res=>{
+          setAdmList(res.data.data);
+          console.log(res.data.data);
+          // console.log(funList.categories.facilities.logo)
+        })
+        // .then(res =>console.log(res.data))
+        .catch(err=>console.log(err))
   }
 
   // const myID="Hello";
@@ -69,7 +95,6 @@ const AdmFunHistory = () => {
           <table className="center">
             <thead>
               <tr>
-                <th className="custom_border">Action</th>
                 <th className="custom_border">Transaction No.</th>
                 <th className="custom_border">Status</th>
                 <th className="custom_border">Transaction At</th>
@@ -78,41 +103,29 @@ const AdmFunHistory = () => {
               </tr>
             </thead>
             <tbody>
-              {trans.map((tran)=>(
-                <tr>
-                  <td>{tran.action}</td>
-                  <td>{tran.transNo}</td>
-                  <td>{tran.status}</td>
-                  <td>{tran.date}</td>
-                  <td>{tran.location}</td>
-                  <td>
+ 
+
+              {admList.map((adm)=>(
+                  <tr>
+                    <td>{adm.id}</td>
+                    <td style={{textTransform:'capitalize'}}>{adm.status}</td>
+                    <td>
+                    {
+                      dateFormat(adm.created_at,"d mmmm yyyy")
+                    }
+                    </td>
+                    <td>{adm.name}</td>
+                    <td>
                     <button>
                       <Link to="/admin/transaction/funeral/detail/" 
-                      state={{transNo:tran.transNo,transDate:tran.date}}>
+                      state={{transNo:adm.id}} style={{color:'black'}}>
                         Detail
                       </Link>
-                    {/* <button onClick={event=>openDetail(event,"hello")}>Detail */}
-                      {/* <AdmFunDetail userID={tran.transNo}/>0 */}
-                      {/* <idTrans.Provider value={"hello"}>
-                        <Link to="/admin/transaction/funeral/detail/">Detail</Link>
-                        
-                      </idTrans.Provider> */}
-                      {/* <Link 
-                        to={{
-                          pathname:"/admin/transaction/funeral/detail/",
-                          state: {id: tran.transNo}
-                        }}
-                        >Detail</Link> */}
-                        {/* <Link 
-                        to="/admin/transaction/funeral/detail"
-                        state={{id:"hello"}}>
-                          Detail
-                        </Link> */}
                     </button>
-                  </td>
-                </tr>
-                
-              ))}
+                    </td>
+                  </tr>
+                ))
+              }  
             </tbody>
           </table>
         </div>

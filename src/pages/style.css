@@ -1,0 +1,25 @@
+.selectedLinks{
+    display: flex;
+    text-decoration: none;
+
+
+}
+
+a{
+    text-decoration: none;
+}
+
+.selectedLinks a.active{
+    color:black;
+    font-weight: bold;
+
+}
+.selectedLinks a.inactive{
+    color: black;
+
+}
+
+/* .buttonClick:hover{
+    background-color: blue;
+} */
+

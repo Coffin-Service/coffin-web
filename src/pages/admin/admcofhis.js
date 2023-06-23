@@ -4,37 +4,45 @@ import data from "../../mock-data.json"
 import NavbarAdmin from "../../components/NavbarAdmin";
 import Admin from "../Admin";
 import axios from "../../components/axios";
-import AdminTrans from "../../AdminTrans";
+import AdminTrans from "../AdminTrans";
 import AdminAcc from "../AdminUser";
+import dateFormat from "dateformat";
 
-const COF_URL = 'https://coffin-server-production.up.railway.app/api/employee/coffin-packages';
+const BASE_URL="https://coffin-server-production.up.railway.app/";
+const ADM_URL=`${BASE_URL}api/employee/transactions`;
 
 const AdmCofHistory = () => {
   const [trans,setTrans]=useState(data);
 
-  // const [active,setActive]=useState(true);
+  const [admList,setAdmList]=useState([]);
+
+  const [active,setActive]=useState(true);
+  const AuthToken = 'Bearer '.concat(localStorage.getItem('token'));
 
   const [cofList,setCofList]=useState([]);
 
   useEffect(()=>{
-    console.log(localStorage.getItem('token'));
-    refreshCofList();
+    // console.log(localStorage.getItem('token'));
+    getData();
   },[])
-  
+
+  function getData(){
+    const admAPI = axios.get(ADM_URL+'?type=coffin',
+      {
+        headers:{'Authorization':AuthToken}
+      })
+        .then(res=>{
+          setAdmList(res.data.data);
+          console.log(res.data.data);
+          // console.log(funList.categories.facilities.logo)
+        })
+        // .then(res =>console.log(res.data))
+        .catch(err=>console.log(err))
+  }
   // useEffect(()=>{
   //   tokens = JSON.parse(localStorage.getItem('token'));
   // },[])
 
-  const AuthToken = 'Bearer '.concat(localStorage.getItem('token'))
-  function refreshCofList(){
-    const cofAPI = axios.get(COF_URL,
-    {
-      headers:{'Authorization':AuthToken}
-    })
-      .then(res=>setCofList(res.data.data))
-      // .then(res =>console.log( res.data.data[0]))
-      .catch(err=>console.log(err))
-  }
   // const handleClick = () => {
   //   setActive(!active);
   // }
@@ -86,7 +94,6 @@ const AdmCofHistory = () => {
           <table className="center">
             <thead>
               <tr>
-                <th className="custom_border">Action</th>
                 <th className="custom_border">Transaction No.</th>
                 <th className="custom_border">Status</th>
                 <th className="custom_border">Transaction At</th>
@@ -95,7 +102,7 @@ const AdmCofHistory = () => {
               </tr>
             </thead>
             <tbody>
-              {trans.map((tran)=>(
+              {/* {trans.map((tran)=>(
                 <tr>
                   <td>{tran.action}</td>
                   <td>{tran.transNo}</td>
@@ -103,21 +110,24 @@ const AdmCofHistory = () => {
                   <td>{tran.date}</td>
                   <td>{tran.location}</td>
                   <td><button><Link to="/admin/transaction/coffin/detail/" 
-                      state={{transNo:tran.transNo,transDate:tran.date}}>
+                      state={{transNo:tran.transNo}}>
                         Detail
                       </Link></button></td>
                 </tr>
-              ))}
+              ))} */}
 
-              {cofList.map((cof)=>(
+              {admList.map((adm)=>(
                   <tr>
-                    <td>Action</td>
-                    <td>{cof.id}</td>
-                    <td>Status</td>
-                    <td>Date</td>
-                    <td>{cof.name}</td>
+                    <td>{adm.id}</td>
+                    <td style={{textTransform:'capitalize'}}>{adm.status}</td>
+                    <td>
+                    {
+                      dateFormat(adm.created_at,"d mmmm yyyy")
+                    }
+                    </td>
+                    <td>{adm.name}</td>
                     <td><button><Link to="/admin/transaction/coffin/detail/" 
-                      state={{transNo:cof.id,transDate:'DATE'}}>
+                      state={{transNo:adm.id}} style={{color:'black'}}>
                         Detail
                       </Link></button></td>
                   </tr>

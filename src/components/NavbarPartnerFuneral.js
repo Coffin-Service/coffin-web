@@ -2,6 +2,8 @@ import React from "react";
 import { Nav, NavLink, NavMenu } 
     from "./NavbarElements";
 
+import './styles.css'
+import logo from"../picture/Logo.png" ;
 // const root = ReactDOM.createRoot(document.getElementById('root'));
 // root.render(
 //   <React.StrictMode>
@@ -9,11 +11,12 @@ import { Nav, NavLink, NavMenu }
 //   </React.StrictMode>
 // );
 
-const NavbarPartFun=() =>{
+const NavbarPartFun=(props) =>{
   return(
-    
+      <>
       <Nav>
         <NavMenu>
+          <div className="selectedLink">
           <NavLink to="/partner/funeral/service" activeStyle style={{marginLeft:"0rem", whiteSpace:'nowrap'}}>
             Funeral Service
           </NavLink>
@@ -23,11 +26,18 @@ const NavbarPartFun=() =>{
           <NavLink to="/partner/funeral/service_data" activeStyle style={{whiteSpace: "nowrap"}}>
             Funeral Service Data
           </NavLink>
-          <NavLink to="/edit_profile" activeStyle style={{marginLeft:"0rem"}}>
-            EditProfile
+          </div>
+        </NavMenu>
+        
+        <NavMenu>
+          <div>{props.user}</div>
+          <NavLink to="/edit_profile" style={{marginLeft:"0rem",textAlign:"right"}}>
+          <img src={logo} width="30" height="30"/>
           </NavLink>
         </NavMenu>
-      </Nav>
+        </Nav>
+      
+      </>
   );
 };
 // If you want to start measuring performance in your app, pass a function

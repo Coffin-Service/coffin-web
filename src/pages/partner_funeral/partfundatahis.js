@@ -6,8 +6,12 @@ import data from "../../mock-data-funeral.json"
 import EditableRow from "./editRowFuneral";
 import ReadOnlyRow from "./readRowFuneral";
 import axios from "../../components/axios";
+import e from "cors";
+import bin from "../../picture/Trash.png"
 
-const FUN_URL = 'https://coffin-server-production.up.railway.app/api/employee/funeral-packages';
+const BASE_URL ="https://coffin-server-production.up.railway.app";
+const FUN_URL = `${BASE_URL}/api/employee/funeral-packages`;
+const LOGIN_DETAIL_URL = `${BASE_URL}/api/employee/me`;
 
 const PartFunServDataHis = () => {
   // const [trans,setTrans]=useState(data);
@@ -16,13 +20,28 @@ const PartFunServDataHis = () => {
 
   const [funList,setFunList]=useState([]);
   const [localFunList,setLocalFunList]=useState(funList);
-  
+  const [loginDetail,setLoginDetail]=useState([]);
+
   const AuthToken = 'Bearer '.concat(localStorage.getItem('token'));
 
   useEffect(()=>{
-    console.log(localStorage.getItem('token'));
+    // console.log(localStorage.getItem('token'));
     refreshFunList();
+    getLoginDetailRole();
+    // console.log(funList);
   },[])
+
+  function getLoginDetailRole(){
+    console.log(localStorage.getItem('token'));
+    const AuthToken = 'Bearer '.concat(localStorage.getItem('token'))
+    const getRole = axios.get(LOGIN_DETAIL_URL,{
+        headers:{'Authorization':AuthToken}
+      })
+        .then(res=>{setLoginDetail(res.data.data)})
+        // .then(res=>console.log(res.data.data))
+        // .then(data=>console.log(data))
+        .catch(err=>console.log(err))
+  }
 
   const handleClick = () => {
     setActive(!active);
@@ -48,96 +67,6 @@ const PartFunServDataHis = () => {
 
   const [trans, setTrans] = useState(data);
 
-  const handleAddFormChange = (event) => {
-    event.preventDefault();
-
-    const fieldName = event.target.getAttribute("name");
-    const fieldValue = event.target.value;
-
-    const newFormData = { ...addFormData };
-    newFormData[fieldName] = fieldValue;
-
-    setAddFormData(newFormData);
-  };
-
-  const handleEditFormChange = (event) => {
-    event.preventDefault();
-
-    const fieldName = event.target.getAttribute("name");
-    const fieldValue = event.target.value;
-
-    const newFormData = { ...editFormData };
-    newFormData[fieldName] = fieldValue;
-
-    setEditFormData(newFormData);
-  };
-
-  const handleAddFormSubmit = (event) => {
-    event.preventDefault();
-
-    const newContact = {
-      id: nanoid(),
-      packageName: addFormData.packageName,
-      category: addFormData.category,
-      categoryName: addFormData.categoryName,
-      price: addFormData.price,
-      facility: addFormData.facility,
-    };
-
-    const newContacts = [...contacts, newContact];
-    setContacts(newContacts);
-  };
-
-  const handleEditFormSubmit = (event) => {
-    event.preventDefault();
-
-    const editedContact = {
-      id: trans,
-      packageName: addFormData.packageName,
-      category: addFormData.category,
-      categoryName: addFormData.categoryName,
-      price: addFormData.price,
-      facility: addFormData.facility,
-    };
-
-    const newContacts = [...contacts];
-
-    const index = contacts.findIndex((contact) => contact.id === trans);
-
-    newContacts[index] = editedContact;
-
-    setContacts(newContacts);
-    setTrans(null);
-  };
-
-  const handleEditClick = (event, contact) => {
-    event.preventDefault();
-    setTrans(contact.id);
-
-    const formValues = {
-      packageName: addFormData.packageName,
-      category: addFormData.category,
-      categoryName: addFormData.categoryName,
-      price: addFormData.price,
-      facility: addFormData.facility,
-    };
-
-    setEditFormData(formValues);
-  };
-
-  const handleCancelClick = () => {
-    setTrans(null);
-  };
-
-  const handleDeleteClick = (contactId) => {
-    const newContacts = [...contacts];
-
-    const index = contacts.findIndex((contact) => contact.id === contactId);
-
-    newContacts.splice(index, 1);
-
-    setContacts(newContacts);
-  };
 
   function refreshFunList(){
     const cofAPI = axios.get(FUN_URL,
@@ -146,108 +75,78 @@ const PartFunServDataHis = () => {
     })
       .then(res=>{
         setFunList(res.data.data);
-        console.log(funList);
+        // console.log(funList);
         // console.log(funList.categories.facilities.logo)
       })
       // .then(res =>console.log(res.data))
       .catch(err=>console.log(err))
   }
 
+  const delFunList =(funId)=>{
+    
+    const confirmBox = window.confirm(
+      "Are you sure?"
+    )
+    if(confirmBox===true){
+      console.log(FUN_URL+'/'+funId)
+      const cofAPI = axios.delete(`${BASE_URL}/api/employee/funeral-packages/${funId}`,{
+        headers:{'Authorization':AuthToken}
+      })
+      .then(res=>{
+        const deletedBox=window.alert("Action done (Please refresh the page)!")
+      })
+      .catch(err=>console.log(err))
+    }
+    // console.log(FUN_URL+funId);
+    
+  }
+
+  function CommaAdd(amount){
+    return new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR"
+    }).format(amount);
+  }
+
   return (
     
     <>
-      <NavbarPartnerFuneral/>
+      <NavbarPartnerFuneral user={loginDetail.name}/>
       <div>
-        <h1>
+        {/* <h1>
           This is Funeral Service Data History Page for Partner
-        </h1>
-        <h1>Data</h1>
+        </h1> */}
+         <h3 style={{color:'black',fontWeight:'bold',marginLeft:'3%',marginRight:'15%',padding:'1%',borderBottom:'1px solid gray'}}>Funeral Service Package</h3>
+        
         <div style={{textAlign:"center"}}>
           <form>
-          <table className="center">
+          <table className="center" style={{marginTop:'2%'}}>
             <thead>
               <tr>
-                <th>Package Name</th>
-                <th>Category</th>
-                <th>Price (Rp)</th>
-                <th>Facility</th>
-                <th>Detail</th>
-                <th>Actions</th>
+                <th style={{width:'15%'}}>Package Name</th>
+                <th style={{width:'25%'}}>Category</th>
+                <th style={{width:'12%'}}>Price (Rp)</th>
+                <th style={{width:'17%'}}>Facility</th>
+                <th style={{width:'8%'}}>Detail</th>
+                <th style={{width:'8%'}}>Actions</th>
+                <th></th>
               </tr>
             </thead>
             <tbody >
-              {trans.map((contact)=>(
-                <>
-                  {/* {trans===contact.id?(
-                    <EditableRow 
-                      editFormData={editFormData}
-                      handleEditFormChange={handleEditFormChange}
-                      handleCancelClick={handleCancelClick}/>
-                  ):(
-                    <ReadOnlyRow
-                      contact={contact}
-                      handleEditClick={handleEditClick}
-                      handleDeleteClick={handleDeleteClick}/>
-                  )} */}
-                </>
-
-                // <tr>
-                //   <td>{tran.packageName}</td>
-                //   <td>{tran.category}</td>
-                //   <td>{tran.categoryName}</td>
-                //   <td>{tran.price}</td>
-                //   <td>{tran.facility}</td>
-                //   <td>
-                //     <button>
-                //       <Link to="/partner/funeral/service_data/detail" 
-                //       state={{packageName:tran.packageName,category:tran.category}}>
-                //         Detail
-                //       </Link>
-                //     </button>
-                //   </td>
-                // </tr>
-              ))}
-
-              {/* {funList.map((fun)=>(
-                <>
-                  {funList===fun.id?(
-                    <EditableRow 
-                      editFormData={editFormData}
-                      handleEditFormChange={handleEditFormChange}
-                      handleCancelClick={handleCancelClick}/>
-                  ):(
-                    <ReadOnlyRow
-                      contact={localFunList}
-                      handleEditClick={handleEditClick}
-                      handleDeleteClick={handleDeleteClick}/>
-                  )}
-                </>
-              ))} */}
 
               {funList.map((fun)=>(
                 <tr>
-                  <td style={{borderTop:"1px solid #222"}}>{fun.name}</td>
-                  
-                  {/* {fun.categories.map((cat)=>(            
-                    <div>
-                        <td>{cat.name}</td>
-                        {
-                          cat.facilities.map((fac)=>(
-                            <ul></ul>
-                          ))
-                        }
-                    </div>        
-                  ))} */}
+                  <td style={{borderTop:"1px solid #222",verticalAlign:'top',paddingTop:'2%'}}>{fun.name}</td>
 
-                  <td style={{borderTop:"1px solid #222"}}>
+                  <td style={{borderTop:"1px solid #222",verticalAlign:'top'}}>
                     {
                       fun.categories.map((cat)=>(
                         // <tr>{cat.name}</tr>
-                        <div>
+                        <div style={{marginTop:'7%'}}>
                           <table className="custom_table font_color">
                             <thead>
                               <tr>
-                                <th className="custom_rowName" style={{margin:'auto',padding:'0.5'}}>{cat.name}</th>
+                                <th className="custom_rowName" style={{margin:'auto',padding:'0.5',verticalAlign:'top',textAlign:'center'}}>{cat.name}</th>
                               </tr>
                             </thead>
                           </table>
@@ -256,14 +155,16 @@ const PartFunServDataHis = () => {
                     }
                   </td>
 
-                  <td style={{borderTop:"1px solid #222"}}>
+                  <td style={{borderTop:"1px solid #222",verticalAlign:'top'}}>
                     {
                       fun.categories.map((cat)=>(
-                        <div>
+                        <div style={{marginTop:'15%'}}>
                           <table className="custom_table font_color">
                             <thead>
                               <tr>
-                                <th className="custom_rowName" style={{margin:'auto',padding:'0.5'}}>{cat.price}</th>
+                                <th className="custom_rowName" style={{margin:'auto',padding:'0.5',verticalAlign:'top',textAlign:'center'}}>
+                                  {CommaAdd(cat.price)}
+                                </th>
                               </tr>
                             </thead>
                           </table>
@@ -272,23 +173,26 @@ const PartFunServDataHis = () => {
                     }
                   </td>
 
-                  <td style={{borderTop:"1px solid #222"}}>
+                  <td style={{borderTop:"1px solid #222",verticalAlign:'top',display:'flex',flexDirection:'row',textAlign:'left'}}>
                     {
                       fun.categories.map((cat)=>(
-                          <div>
+                          <div style={{margin:'auto'}}>
                             {cat.facilities.map((fac)=>(
-                              
+                              <div style={{marginTop:'10%'}}>
+                                <div>{fac.name}</div>
                                 {/* <img src={fac.logo}/> */}
-                                <div>
-                                  <table className="custom_table font_color">
-                                    <thead>
-                                      <tr>
-                                        <th className="custom_rowName" style={{margin:'auto',padding:'0.5'}}>{cat.price}</th>
+                                {/* <div>
+                                  <table className="custom_table font_color" style={{border:'1px solid black'}}>
+                                    
+                                      <tr style={{margin:'auto'}}>
+                                        <td className="custom_rowName" style={{display:'flex',justifyContent:'left'}}>
+                                          <img src={fac.logo}/>
+                                        </td>
                                       </tr>
-                                    </thead>
+                                    
                                   </table>
-                                </div>
-                              
+                                </div> */}
+                              </div>
                               ))}
                           </div>
                         ))
@@ -296,11 +200,20 @@ const PartFunServDataHis = () => {
                   </td>
                   
                   <td style={{borderTop:"1px solid #222"}}>
-                    <button>
+                    <button style={{marginTop:'auto',borderRadius:'40px',width:'110px',backgroundColor:'white'}}>
                       <Link to="/partner/funeral/service_data/detail" 
-                        state={{packageName:fun.name}}>
+                        state={{packageId:fun.id,packageName:fun.name}} style={{color:'black'}}>
                           Detail
                       </Link>
+                    </button>
+                  </td>
+
+                  <td style={{borderTop:"1px solid #222",padding:'1%'}}>
+                    <button onClick={(e)=>{
+                      e.preventDefault();
+                      delFunList(fun.id)}}
+                      style={{backgroundColor:'white',border:'none',outline:'none',marginTop:'10px'}}>
+                      <img src={bin}/>
                     </button>
                   </td>
 
@@ -309,6 +222,13 @@ const PartFunServDataHis = () => {
 
             </tbody>
           </table>
+          
+          <div style={{color:'black',fontWeight:'bold',marginLeft:'3%',marginRight:'15%',padding:'1%',borderBottom:'1px solid gray'}}></div>
+          <button style={{width:'200px',borderRadius:'30px',backgroundColor:'#F3B792',marginRight:'23%',alignSelf:'flex-end'}}>
+            <Link to="/partner/funeral/service_data/add" style={{color:'black'}}>
+              Add Package
+            </Link>
+          </button>
           </form>
         </div>
       </div>

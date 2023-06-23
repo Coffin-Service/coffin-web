@@ -3,6 +3,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom"
 import NavbarAdmin from "../components/NavbarAdmin";
 import axios from "../components/axios";
 import { useEffect,useRef,useState } from "react";
+import { Nav } from "../components/NavbarElements";
 
 const PROF_URL = 'https://coffin-server-production.up.railway.app/api/employee/me/update-profile';
 
@@ -24,6 +25,7 @@ const EditProfile = () => {
 
   const AuthToken = 'Bearer '.concat(localStorage.getItem('token'))
 
+  const goBack = () =>{navigate(-1);}
   const handleSubmit = async (e) =>{
     e.preventDefault();
     console.log(localStorage.getItem('token'));
@@ -38,7 +40,8 @@ const EditProfile = () => {
               // console.log(roles);
               setName('');
               setEmail('');
-                navigate(from, { replace: true });
+              goBack();
+                // navigate(from, { replace: true });
               
             } catch (err) {
                 if (!err?.response) {
@@ -64,27 +67,24 @@ const EditProfile = () => {
 
   return (
     <>
-        <h1 style={{color:"black"}}>Profile Page</h1>
-        <br />
-        <p style={{color:"black"}}>This is Profile Page.</p>
-        <br/>
-        <Link to="/" style={{color:"black"}}>Home</Link>
-
+      <Nav>
+        <Link onClick={goBack} style={{color:"white",margin:'auto',marginLeft:'2%',fontWeight:'bold'}}>Back</Link>
+      </Nav>
 
         <div className="font_color">
-          <h1>
+          {/* <h1>
             This is EditProfile
           </h1>
           <h2>
             Username is : {name}
-          </h2>
+          </h2> */}
         </div>
 
         <section style={{justifyContent:"center",alignItems:"center",margin:"auto"}}>
           <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
           <h1>Edit</h1>
           <form style={{justifyContent:"center"}} onSubmit={handleSubmit}>
-          <label htmlFor="email">Email:</label>
+          <label htmlFor="email">Email</label>
               <input
                   type="text"
                   id="email"
@@ -93,9 +93,10 @@ const EditProfile = () => {
                   onChange={(e) => setEmail(e.target.value)}
                   value={email}
                   required
+                  style={{borderRadius:'30px',border:'none',paddingLeft:'5%',paddingRight:'5%'}}
               />
 
-              <label htmlFor="name">Name:</label>
+              <label htmlFor="name">Name</label>
               <input
                   type="text"
                   id="name"
@@ -103,16 +104,22 @@ const EditProfile = () => {
                   onChange={(e) => setName(e.target.value)}
                   value={name}
                   required
+                  style={{borderRadius:'30px',border:'none',paddingLeft:'5%',paddingRight:'5%'}}
               />
 
-              <label htmlFor="password">Password:</label>
+              <Link to="/edit_profile/pwd" style={{margin:'auto',marginTop:'5%'}}>
+                Change Password 
+              </Link>
+
+              {/* <label htmlFor="password">Password:</label>
               <input
                   type="password"
                   id="password"
 
-              />
-              <button>Confirm</button>
+              /> */}
+              <button style={{backgroundColor:'#F3B792',borderRadius:'30px',border:'none'}}>Confirm</button>
           </form>
+          
           
       </section>
 

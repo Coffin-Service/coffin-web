@@ -2,18 +2,23 @@ import { useRef, useState, useEffect, useContext } from 'react';
 // import AuthContext from "../components/AuthProvider";
 import useAuth from '../hooks/useAuth.js';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
+import logo from"../picture/Logo.png" ;
 
 import axios from '../components/axios.js';
 import AuthContext from '../components/AuthProvider.js';
-const LOGIN_URL = 'https://coffin-server-production.up.railway.app/api/employee/auth/login';
-const LOGIN_DETAIL_URL = 'https://coffin-server-production.up.railway.app/api/employee/me';
+const BASE_URL ="https://coffin-server-production.up.railway.app/";
+const LOGIN_URL = `${BASE_URL}api/employee/auth/login`;
+const LOGIN_DETAIL_URL = `${BASE_URL}api/employee/me`;
+const LOGOUT_URL = `${BASE_URL}api/employee/auth/revoke`;
 
 const Login = () => {
   const { auth,setAuth } = useAuth();
 
   const navigate = useNavigate();
   const location = useLocation();
-  const from = location.state?.from?.pathname || "/";
+  const fromAdm = location.state?.from?.pathname || "/admin";
+  const fromFuneral = location.state?.from?.pathname || "/partner/funeral";
+  const fromCoffin = location.state?.from?.pathname || "/partner/coffin";
 
   const userRef = useRef();
   const errRef = useRef();
@@ -41,12 +46,13 @@ const Login = () => {
   },[auth])
 
   useEffect(()=>{
-    getLoginDetailRole();
+    console.log(loginDetail.name);
+    logOut();
+    // getLoginDetailRole();
   },[])
 
   const handleSubmit = async (e) => {
       e.preventDefault();
-      
       try {
           const response = await axios.post(LOGIN_URL,
             { email:email, password:pwd },
@@ -54,15 +60,18 @@ const Login = () => {
           )
                   const accessToken = response?.data.data.access_token;
                   localStorage.setItem('token',accessToken);
+                  getLoginDetailRole(email,pwd);
+                //   console.log('tryin to login');
                 //   const getToken = await getLoginDetailRole();
-                  const roles = loginDetail.name;
-                  console.log(loginDetail);
-                  console.log(loginDetail.name);
-                  console.log(roles);
-                  setAuth({email, pwd, roles, accessToken });
+                //   const roles = loginDetail.name;
+                //   console.log(loginDetail);
+                //   console.log("checking if role is "+loginDetail?.name);
+                //   console.log(roles);
+                    // navigateRole();
+                //   setAuth({email, pwd, roles, accessToken });
                   setEmail('');
                   setPwd('');
-                    navigate(from, { replace: true });
+                    // navigate(from, { replace: true });
                   
                 } catch (err) {
                     if (!err?.response) {
@@ -75,16 +84,30 @@ const Login = () => {
                         setErrMsg('Login Failed');
                     }
                     errRef.current.focus();
-                }
-            }
+        }
+        // const AuthToken = 'Bearer '.concat(localStorage.getItem('token'))
+        // const roles = loginDetail?.name;
+        // getLoginDetailRole(email,pwd);
+        // setAuth({email, pwd, roles, AuthToken });
+        // setEmail('');
+        // setPwd('');
+        // navigateRole();
+    }
         
-            function getLoginDetailRole(){
-                console.log(localStorage.getItem('token'));
+            function getLoginDetailRole(email,pwd){
+                // console.log(localStorage.getItem('token'));
                 const AuthToken = 'Bearer '.concat(localStorage.getItem('token'))
                 const getRole = axios.get(LOGIN_DETAIL_URL,{
                     headers:{'Authorization':AuthToken}
                   })
-                    .then(res=>setLoginDetail(res.data.data))
+                    .then(res=>
+                        {
+                            setLoginDetail(res.data.data);
+                            // console.log(res.data.data);
+                            const roles = res.data.data.name;
+                            setAuth({email, pwd, roles, AuthToken });
+                            navigateRole(roles);
+                        })
                     // .then(res=>console.log(res.data.data))
                     // .then(data=>console.log(data))
                     .catch(err=>console.log(err))
@@ -95,14 +118,34 @@ const Login = () => {
             //         setToken(token);
             //     }
             // })
+    
+            function navigateRole(role){
+                // e.preventDefault();
+                // console.log("try to navigate to"+role);
+                if(role==="Admin"){navigate(fromAdm,{replace:true});}
+                if(role==="funeral"){navigate(fromFuneral,{replace:true});}
+                if(role==="Coffin"){navigate(fromCoffin,{replace:true});}
+            }
 
+            function logOut(){
+                console.log(localStorage.getItem('token'));
+                const AuthToken = 'Bearer '.concat(localStorage.getItem('token'))
+                const logOut = axios.post(LOGOUT_URL,
+                    null,
+                    {
+                    headers:{'Authorization':AuthToken}
+                  })
+                    .then(res=>{console.log(res.data);setLoginDetail([])})
+                    .catch(err=>console.log(err))
+            }
   return (
 
       <section style={{justifyContent:"center",alignItems:"center",margin:"auto"}}>
           <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
-          <h1>Sign In</h1>
-          <form onSubmit={handleSubmit}>
-              <label htmlFor="email">Email:</label>
+          {/* <h1>Sign In</h1> */}
+          <form onSubmit={handleSubmit} style={{padding:'30px'}}>
+            <img src={logo} style={{width:'130px',minWidth:'50px',maxWidth:'200px',margin:'auto'}}/>
+              <label htmlFor="email" style={{margin:'auto',padding:'10px'}}>Email</label>
               <input
                   type="text"
                   id="email"
@@ -111,22 +154,24 @@ const Login = () => {
                   onChange={(e) => setEmail(e.target.value)}
                   value={email}
                   required
+                  style={{borderRadius:'20px'}}
               />
 
-              <label htmlFor="password">Password:</label>
+              <label htmlFor="password" style={{margin:'auto',padding:'10px'}}>Password</label>
               <input
                   type="password"
                   id="password"
                   onChange={(e) => setPwd(e.target.value)}
                   value={pwd}
                   required
+                  style={{borderRadius:'20px'}}
               />
-              <button>Sign In</button>
+              <button style={{borderRadius:'25px',backgroundColor:'#f3b792'}}>Login</button>
           </form>
-          <p>
-              Need an Account?<br />
-              <span className="line">
-                  <Link to="/register">Sign Up</Link>
+          <p style={{margin:'auto',justifyContent:'center',alignItems:'center',textAlign:'center',padding:'20px'}}>
+              Don't have an account?<br />
+              <span>
+                  <Link to="/register" >Register</Link>
               </span>
           </p>
       </section>

@@ -4,20 +4,19 @@ import data from "../../mock-data-account.json";
 import NavbarAdmin from "../../components/NavbarAdmin";
 import axios from "../../components/axios";
 import AdminAcc from "../AdminUser";
-// import Switch from "react-switch";
-import Switch from "@mui/material/Switch";
-import FormControlLabel from '@mui/material/FormControlLabel';
-// import FormGroup from '@mui/material/FormGroup';
-// import Switch from "../../custom_switch/switch";
+import Switch from "react-switch";
+import TogglePartAcc from "./togglePartacc";
+import AcceptPartAcc from "./acceptPartacc";
+import dateFormat from "dateformat";
 
-
-const PART_URL = 'https://coffin-server-production.up.railway.app/api/employee/employees';
+const BASE_URL = "https://coffin-server-production.up.railway.app"
+const PART_URL = `${BASE_URL}/api/employee/employees`;
 
 const AdmPartAcc = () => {
 
   const [trans,setTrans]=useState(data);
 
-  const [checked,setChecked]=useState([]);
+  const [checked,setChecked]=useState(false);
   const [isToggled,setIsToggled]=useState(false);
   // const handleClick = () => {
   //   setActive(!active);
@@ -32,80 +31,52 @@ const AdmPartAcc = () => {
 
   const AuthToken = 'Bearer '.concat(localStorage.getItem('token'))
   function refreshPartnerList(){
-    const cofAPI = axios.get(PART_URL,
+    const admAPI = axios.get(PART_URL,
     {
       headers:{'Authorization':AuthToken}
     })
-      .then(res=>setPartnerList(res.data.data))
+      .then(res=>{
+        setPartnerList(res.data.data)
+        console.log(res.data.data)
+      })
       
       // .then(res =>console.log( res.data.data[0]))
       .catch(err=>console.log(err))
   }
 
-  const handleChange =(e)=>{
-    // e.preventDefault();
-    console.log("trying to change status");
-    setChecked(e.target.checked);
-    // if(e.target.value=="on"){
-    //   setChecked(true);
-    // }
-    // else{
-    //   setChecked(false);
-    // }
-    // console.log(e.target.value)
-    console.log(checked);
+  const handleChange =()=>{
+    setChecked(!checked);
   }
 
   const ToggleItem =(id,e)=>{
     checked[id]=
     setChecked(e.target.checked);
-    // return (
-    //   <div className="single-history" key={id}>
-    //     <button
-    //       className="h-head"
-    //       onClick={() => setToggleThisElement((prev) => !prev)}
-    //     >
-    //       click this btn for toggle h-info block {id}
-    //     </button>
 
-    //     {toggleThisElement && <div className="h-info">{discription}</div>}
-    //   </div>
-    // );
   };
 
   return (
     <>
-    <AdminAcc/>
-      {/* <div>
-        <ul>
-          <li>
-            <Link to="/admin/account_management/user" 
-            style={{opacity:active?0.7:1}}>User</Link>
-          </li>
-          <li>
-            <Link to="/admin/account_management/partner" >Partner</Link>
-          </li>
-        </ul>
-      </div> */}
+    <AdminAcc/> 
       
       <div>
-        <h1>
+        {/* <h1>
           This is Partner Account Management
-        </h1>
-
-        <div style={{textAlign:"center"}}>
+        </h1> */}
+         
+        <div style={{textAlign:"center",marginTop:'3%'}}>
           <table className="center">
             <thead>
               <tr>
-                <th>Action</th>
-                <th>Email</th>
-                <th>Status</th>
-                <th>Issued Date</th>
-                <th>Operating</th>
+                <th style={{width:'25%',borderBottom:'1px solid black'}}>Email</th>
+                <th style={{width:'8%',borderBottom:'1px solid black'}}>Status</th>
+                <th style={{width:'20%',borderBottom:'1px solid black'}}>Issued Date</th>
+                <th style={{width:'8%',borderBottom:'1px solid black'}}>Operating</th>
+                <th style={{width:'12%',borderBottom:'1px solid black'}}>Action</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
-              {trans.map((tran)=>(
+              {/* {trans.map((tran)=>(
                 <tr>
                   <td>Yes/No </td>
                   <td>{tran.email}</td>
@@ -114,37 +85,20 @@ const AdmPartAcc = () => {
                   <td>{tran.accessbility}</td>
                   
                 </tr>
-              ))}
+              ))} */}
 
               {partnerList.map((part,i)=>(
                   <tr>
-                    <td>Action</td>
-                    <td>{part.id}</td>
-                    <td>{part.status}</td>
-                    <td>{part.created_at}</td>
+                    
+                    <td style={{borderBottom:'1px solid black'}}>{part.email}</td>
+                    <td style={{borderBottom:'1px solid black',textTransform:'capitalize'}}>{part.status}</td>
+                    <td style={{borderBottom:'1px solid black'}}>{dateFormat(part.created_at,"dd mmmm yyyy")}</td>
                     {/* <td>{JSON.stringify(part.is_operating)}</td> */}
-                    <td>
-                        <Switch
-                          checked={checked}
-                          onChange={this.ToggleItem.bind(this,i)}
-                        />
-                        {/* <FormGroup> */}
-                          {/* <FormControlLabel
-                            control={ 
-                              <Switch
-                              // rounded={true}
-                              // isToggled={partnerList.values===part.is_operating}
-                              // onToggle={()=>setIsToggled(!isToggled)}
-                              // defaultChecked
-                              
-                              checked={checked}
-                              onChange={handleChange}
-                              inputProps={{'aria-label':'controlled'}}
-                              />
-                            }
-                          /> */}
-                          {/* </FormGroup> */}
-                        {/* {checked?<div>1st</div>:<div>2nd</div>} */}
+                    <td style={{borderBottom:'1px solid black'}}>
+                      <TogglePartAcc key={i} part={part.id}/>
+                    </td>
+                    <td style={{borderBottom:'1px solid black'}}>
+                      <AcceptPartAcc key={i} part={part.id}/>
                     </td>
                   </tr>
                 ))

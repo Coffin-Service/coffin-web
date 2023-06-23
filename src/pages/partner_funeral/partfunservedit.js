@@ -11,7 +11,9 @@ import axios from "../../components/axios";
 import placeholder from "../../picture/placeholder.png"
 
 
-const VIEW_PUT_URL = 'https://coffin-server-production.up.railway.app/employee/funeral-services';
+const BASE_URL ="https://coffin-server-production.up.railway.app";
+const VIEW_PUT_URL = `${BASE_URL}/api/employee/funeral-services`;
+const LOGIN_DETAIL_URL = `${BASE_URL}/api/employee/me`;
 
 const PartFunServEdit = () => {
   const [file,setFile]=useState();
@@ -146,18 +148,21 @@ const PartFunServEdit = () => {
   const [address, setAddress] = useState('');
   const[description,setDescription]=useState('');
   const[image,setImage]=useState();
-  const[{alt,src},setImg]=useState({
-    src:placeholder,
-    alt:'Upload an Image'
-  });
   const [errMsg, setErrMsg] = useState('');
+  const [loginDetail,setLoginDetail]=useState([]);
+
+  useEffect(()=>{
+    // console.log(localStorage.getItem('token'));
+    handleImgError();
+    getLoginDetailRole();
+  },[])
 
   const handleImage= (e) =>{
     if(e.target.files[0]){
-      setImg({
-        src: URL.createObjectURL(e.target.files[0]),
-        alt: e.target.files[0].name,
-      });
+      // setImg({
+      //   src: URL.createObjectURL(e.target.files[0]),
+      //   alt: e.target.files[0].name,
+      // });
       const data = new FileReader()
       data.addEventListener('load',()=>{
         setImage(data.result)
@@ -166,7 +171,9 @@ const PartFunServEdit = () => {
     }
     // console.log(image)
   }
-
+  const handleImgError = () =>{
+    setImage(placeholder);
+  }
   const AuthToken = 'Bearer '.concat(localStorage.getItem('token'));
   // console.log(AuthToken);
   // useEffect(() => {
@@ -180,11 +187,11 @@ const PartFunServEdit = () => {
     const handleSubmit = async (e) => {
       e.preventDefault();
       console.log(typeof testId.id);
-      setImage("empty");
       console.log(image);
       
       try {
-        const response = await axios.put(`https://coffin-server-production.up.railway.app/api/employee/funeral-services/${testId.id}`,
+       
+        const response = await axios.put(`${VIEW_PUT_URL}/${testId.id}`,
           { name:name, address:address,description:description,image:image },
           { headers:
             {
@@ -235,124 +242,76 @@ const PartFunServEdit = () => {
                   // errRef.current.focus();
               }
           }
+  
+  function getLoginDetailRole(){
+    console.log(localStorage.getItem('token'));
+    const AuthToken = 'Bearer '.concat(localStorage.getItem('token'))
+    const getRole = axios.get(LOGIN_DETAIL_URL,{
+      headers:{'Authorization':AuthToken}
+    })
+      .then(res=>{setLoginDetail(res.data.data)})
+      .catch(err=>console.log(err))
+  }
 
   return (
     <>
-      <NavbarPartnerFuneral/>
+      <NavbarPartnerFuneral user={loginDetail.name}/>
       <div className="font_color">
-        <h1>
+        {/* <h1>
           This is Funeral Service Page for Partner (EDIT FUNERAL SERVICE)
-        </h1>
-        <h1>Add New Package</h1>
-        <form onSubmit={handleSubmit}>
+        </h1> */}
+        {/* <h1>Add New Package</h1> */}
+        <form onSubmit={handleSubmit} style={{}}>
+          <div style={{display:'flex',flexDirection:'row', marginLeft:'5%'}}>
+            <div style={{display:'flex',flexDirection:'column',width:'70%'}}>
+              <label for='name' style={{color:'black'}}>Funeral Name</label> 
+              <input 
+                type="text" 
+                id="name"
+                required="required"
+                placeholder="Input funeral name"
+                onChange={(e)=>setName(e.target.value)}
+                style={{width:250}}/>
 
-          <label for='name' style={{color:'black'}}>Funeral Name</label> 
-          <input 
-            type="text" 
-            id="name"
-            required="required"
-            placeholder="Input funeral name"
-            onChange={(e)=>setName(e.target.value)}
-            style={{width:250}}/>
+              <label for='address' style={{color:'black'}}>Address</label>
+              <input 
+                type="text" 
+                id="address"
+                required="required"
+                placeholder="Input address"
+                onChange={(e)=>setAddress(e.target.value)}
+                style={{width:250}}/>
 
-            <label for='address' style={{color:'black'}}>Address</label>
-            <input 
-              type="text" 
-              id="address"
-              required="required"
-              placeholder="Input address"
-              onChange={(e)=>setAddress(e.target.value)}
-              style={{width:250}}/>
+              <label for='description' style={{color:'black'}}>Description</label>
+              <textarea 
+                type="text" 
+                id='description'
+                placeholder="Description ..."
+                onChange={(e)=>setDescription(e.target.value)}
+                style={{width:350,height:100,overflowWrap:'break-word',resize:'none'}}/>
+              
+              </div>
+              {/* <Link to="/partner/funeral/service"> */}
+              {/* </Link> */}
+              {/* add the image upload area */}
 
-            <label for='description' style={{color:'black'}}>Description</label>
-            <input 
-              type="text" 
-              id='description'
-              placeholder="Description ..."
-              onChange={(e)=>setDescription(e.target.value)}
-              style={{width:350,height:100}}/>
-            {/* <Link to="/partner/funeral/service"> */}
-            {/* </Link> */}
-            {/* add the image upload area */}
 
-            <label for='image' style={{color:'black'}}>
-            Input Image:
-            </label>
-            <input 
-              type="file"
-              accept=".png, .jpg, .jpeg" 
-              id='image'
-              onChange={handleImage}/>
-
-              <button type="submit">Confirm</button>
+              <div style={{margin:'1%',display:'flex',flexDirection:'column'}}>
+                <img src={image} width={350} height={250} style={{border:'0.1px solid gray',borderRadius:'10%'}} onError={handleImgError}/>
+                <label for='image' style={{color:'black',margin:'1%'}}>
+                Input Image:
+                </label>
+                <input 
+                  type="file"
+                  accept=".png, .jpg, .jpeg" 
+                  id='image'
+                  onChange={handleImage}/>
+              </div>
+            </div>
+            <button type="submit" style={{width:'10%',backgroundColor:'#F3B792',alignSelf:'flex-end',marginRight:'7%'}}>Confirm</button>
         </form>
 
-        {/* <form>
-          <label>Package</label>
-          <table className="custom_tablePackage">
-            <thead>
-              <tr>
-                <th className="custom_rowPackageName">
-                  <label>Package Name</label>
-                  <br/>
-                  <input 
-                      type="text" 
-                      name="packageName"
-                      required="required"
-                      placeholder="Input Package Name"
-                      onChange={handleAddFormChange}/>
-                  <br/>
-                  <label>Upload Image</label>
-                  <br/>
-                  <input 
-                      type="file" 
-                      name="addCategory"
-                      placeholder="Upload image"
-                      onChange={{handleChange,handleAddFormChange}}
-                      
-                  />
-                  <img src={file}/>
-                  
-                </th>
-                <th className="custom_rowCategory">
-                  <label>Category</label>
-                  <br/>
-                  <input 
-                      type="text" 
-                      name="categoryName"
-                      required="required"
-                      placeholder="Input Category Name"/>
-                  <br/>
-                  <label>Facility</label>
-                  <br/>
-                  <img src={pic} style={{width:50,padding:3}}/>
-                  <img src={pic} style={{width:50,padding:3}}/>
-                  <img src={pic} style={{width:50,padding:3}}/>
-                  <img src={pic} style={{width:50,padding:3}}/>
-                  <br/>
-                  <label>Price</label>
-                  <br/>
-                  <input 
-                      type="text" 
-                      name="price"
-                      required="required"
-                      placeholder="Input Package Price"/>
-                </th>
-                {/* <th className="custom_rowAddMore">
-                  <label>Add More Category</label>
-                  <input 
-                      type="file" 
-                      name="addCategory"
-                      placeholder="Upload image"
-                      onChange={handleChange}
-                  />
-                  <img src={file}/>
-                </th>
-              </tr>
-            </thead>
-          </table>
-          <button type="submit">Add Package</button>
-        </form> */}
+        
       </div>
     </>
   );

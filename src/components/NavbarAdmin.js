@@ -3,6 +3,7 @@ import { Nav, NavLink, NavMenu }
     from "./NavbarElements";
 
 import "./styles.css"
+import logo from"../picture/Logo.png" ;
 // const root = ReactDOM.createRoot(document.getElementById('root'));
 // root.render(
 //   <React.StrictMode>
@@ -10,45 +11,29 @@ import "./styles.css"
 //   </React.StrictMode>
 // );
 
-const NavbarAdmin=() =>{
-  const selectedLink = ""
-  const normalLink = ""
+const NavbarAdmin=(props) =>{
+
   return(
     
       <Nav>
         <NavMenu>
           <div className="selectedLink">
 
-            <NavLink 
-              style={({ isActive }) => ({
-                color: isActive ? 'red' : 'black',
-                background: isActive ? 'yellow' : 'white',
-              })}
-              to="/admin/transaction" 
-              >
+            <NavLink to="/admin/transaction">
               Transaction
             </NavLink>
           
-            <NavLink
-              style={({ isActive }) => ({
-                color: isActive ? 'red' : 'black',
-                background: isActive ? 'yellow' : 'white',
-              })}
-              to="/admin/account_management"
-              >
+            <NavLink to="/admin/account_management">
               Account Management
             </NavLink>
-
-            <NavLink 
-              style={({ isActive }) => ({
-                color: isActive ? 'red' : 'black',
-                background: isActive ? 'yellow' : 'white',
-              })}
-            >
-              EditProfile
-            </NavLink>
-            {/* to="/edit_profile" */}
           </div>
+        </NavMenu>
+
+        <NavMenu>
+          <div>{props.user}</div>
+          <NavLink activeStyle style={{marginLeft:"0rem"}} to="/edit_profile">
+            <img src={logo} width="30" height="30"/>
+          </NavLink>
         </NavMenu>
       </Nav>
   );

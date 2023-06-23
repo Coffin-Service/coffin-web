@@ -1,4 +1,4 @@
-import React, {useState} from "react"
+import React, {useEffect,useState} from "react"
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import App from "../../App";
 import NavbarPartCof from "../../components/NavbarPartnerCoffin";
@@ -6,7 +6,8 @@ import data from "../../mock-data-funeral-trans.json"
 import axios from "../../components/axios";
 import placeholder from "../../picture/placeholder.png"
 
-const POST_URL = 'https://coffin-server-production.up.railway.app/api/employee/coffin-packages';
+const BASE_URL ="https://coffin-server-production.up.railway.app";
+const POST_URL = `${BASE_URL}/api/employee/coffin-packages`;
 
 const PartCofServ = () => {
   const [active,setActive]=useState(true);
@@ -32,12 +33,17 @@ const PartCofServ = () => {
     alt:'Upload an Image'
   });
 
+  useEffect(()=>{
+    // console.log(localStorage.getItem('token'));
+    handleImgError();
+  },[])
+
   const handleImage= (e) =>{
     if(e.target.files[0]){
-      setImg({
-        src: URL.createObjectURL(e.target.files[0]),
-        alt: e.target.files[0].name,
-      });
+      // setImg({
+      //   src: URL.createObjectURL(e.target.files[0]),
+      //   alt: e.target.files[0].name,
+      // });
       const data = new FileReader()
       data.addEventListener('load',()=>{
         setImage(data.result)
@@ -47,6 +53,9 @@ const PartCofServ = () => {
     // console.log(image)
   }
   // console.log(image)
+  const handleImgError = () =>{
+    setImage(placeholder);
+  }
 
   const handlebase64Image=(e)=>{
     console.log(e.target.files)
@@ -111,103 +120,126 @@ const PartCofServ = () => {
       </div> */}
 
       <div>
-        <h1>
-          This is Coffin Service Page for Partner
-        </h1>
+        {/* <h1>
+          This is Coffin Add Service Page for Partner
+        </h1> */}
       </div>
 
-      <div>
+      <div style={{marginLeft:'3%'}}>
         <form onSubmit={handleSubmit}>
-          <label for='name' style={{color:'black'}}>
-            Coffin name:
-          </label>
-          <input 
-              type="text"
-              id='name'
-              value={name}
-              onChange={(e)=> setName(e.target.value)} />
+          <div style={{display:'flex',flexDirection:'row'}}>
+            <div style={{display:'flex',flexDirection:'column'}}>
+              <label for='name' style={{color:'black'}}>
+                Coffin name:
+              </label>
+              <input 
+                  type="text"
+                  id='name'
+                  value={name}
+                  onChange={(e)=> setName(e.target.value)} 
+                  style={{width:'40%',borderRadius:'30px',paddingLeft:'3%',paddingRight:'3%'}}/>
 
-          <label for='address' style={{color:'black'}}>
-            Address:
-          </label>
-          <input 
-              type="text"
-              id='address'
-              value={address}
-              onChange={(e)=> setAddress(e.target.value)}/>
+              <label for='address' style={{color:'black'}}>
+                Address:
+              </label>
+              <input 
+                  type="text"
+                  id='address'
+                  value={address}
+                  onChange={(e)=> setAddress(e.target.value)}
+                  style={{width:'40%',borderRadius:'30px',paddingLeft:'3%',paddingRight:'3%'}}/>
 
-          <label for='price' style={{color:'black'}}>
-            Price:
-          </label>
-          <input 
-            type="number" 
-            id='price'
-            value={price}
-            onChange={(e)=> setPrice(e.target.value)}/>
+              <label for='price' style={{color:'black'}}>
+                Price:
+              </label>
+              <input 
+                type="number" 
+                id='price'
+                value={price}
+                onChange={(e)=> setPrice(e.target.value)}
+                style={{width:'40%',height:'40px',borderRadius:'30px',paddingLeft:'3%',paddingRight:'3%'}}/>
 
-          <label for='weight' style={{color:'black'}}>
-            Weight:
-          </label>
-          <input 
-            type="number" 
-            id='weight'
-            value={weight}
-            onChange={(e)=> setWeight(e.target.value)}/>
-           
-           <label for='length_width_height' style={{color:'black'}}>
-            Dimensions:
-          </label>
-          <label id='length_width_height' style={{color:'black'}}>
-            Length
-            <input 
-              type="number" 
-              value={length}
-              onChange={(e)=> setLength(e.target.value)}/>
-            Width
-            <input 
-              type="number" 
-              value={width}
-              onChange={(e)=> setWidth(e.target.value)}/>
-            Height
-            <input 
-              type="number" 
-              value={height}
-              onChange={(e)=> setHeight(e.target.value)}/>
-          </label>
+              <label for='weight' style={{color:'black'}}>
+                Weight:
+              </label>
+              <input 
+                type="number" 
+                id='weight'
+                value={weight}
+                onChange={(e)=> setWeight(e.target.value)}
+                style={{width:'40%',height:'40px',borderRadius:'30px',paddingLeft:'3%',paddingRight:'3%'}}/>
+              
+              <label for='length_width_height' style={{color:'black',marginBottom:'-4%'}}>
+                Dimensions
+              </label>
+              <label id='length_width_height' style={{color:'black',display:'flex',flexDirection:'row'}}>
+                <div style={{display:'flex',flexDirection:'column'}}>
+                  Length
+                  <input 
+                    type="number" 
+                    value={length}
+                    onChange={(e)=> setLength(e.target.value)}
+                    style={{width:'80%',height:'40px',borderRadius:'30px',paddingLeft:'3%',paddingRight:'3%'}}/>
+                </div>
+                <div style={{display:'flex',flexDirection:'column'}}>
+                  Width
+                  <input 
+                  type="number" 
+                  value={width}
+                  onChange={(e)=> setWidth(e.target.value)}
+                  style={{width:'80%',height:'40px',borderRadius:'30px',paddingLeft:'3%',paddingRight:'3%'}}/>
+                </div>
+                <div style={{display:'flex',flexDirection:'column'}}>
+                  Height
+                  <input 
+                  type="number" 
+                  value={height}
+                  onChange={(e)=> setHeight(e.target.value)}
+                  style={{width:'80%',height:'40px',borderRadius:'30px',paddingLeft:'3%',paddingRight:'3%'}}/>
+                </div>
+              </label>
 
-          <label for='quantity' style={{color:'black'}}>
-            Quantity:
-          </label>
-          <input 
-            type="number" 
-            id='quantity'
-            value={quantity}
-            onChange={(e)=> setQuantity(e.target.value)}/>
+              <label for='quantity' style={{color:'black'}}>
+                Quantity:
+              </label>
+              <input 
+                type="number" 
+                id='quantity'
+                value={quantity}
+                onChange={(e)=> setQuantity(e.target.value)}
+                style={{width:'40%',height:'40px',borderRadius:'30px',paddingLeft:'3%',paddingRight:'3%'}}/>
 
-          <label for='desc' style={{color:'black'}}>
-            Description:
-          </label>
-          <input 
-            type="text" 
-            id='desc'
-            value={desc}
-            onChange={(e)=> setDesc(e.target.value)}/>
+              <label for='desc' style={{color:'black'}}>
+                Description:
+              </label>
+              <textarea 
+                type="text" 
+                id='desc'
+                value={desc}
+                onChange={(e)=> setDesc(e.target.value)}
+                style={{width:350,height:100,overflowWrap:'break-word',border:'2px solid black',resize:'none'}}/>
+            </div>
 
-          <label for='image' style={{color:'black'}}>
-            Input Image:
-          </label>
-          <input 
-            type="file"
-            accept=".png, .jpg, .jpeg" 
-            id='image'
-            onChange={handleImage}/>
-          <img src={src} alt={alt} />
+            <div style={{display:'flex',flexDirection:'column',marginLeft:'30%',marginTop:'2%'}}>
+              <img src={image} width={350} height={250} style={{border:'0.1px solid gray',borderRadius:'10%'}}  onError={handleImgError}/>
+              <div>
+                <label for='image' style={{color:'black'}}>
+                  Input Image : 
+                </label>
+                <input 
+                  type="file"
+                  accept=".png, .jpg, .jpeg" 
+                  id='image'
+                  onChange={handleImage}/>
+              </div>
+            </div>
+          </div>
+            {/* <input
+              type="file"
+              onChange={handlebase64Image}/>
+            <img src={image}/> */}
+            <button style={{alignSelf:'flex-end',width:'10%',border:'none',borderRadius:'30px',backgroundColor:'#F3B792',marginRight:'20%'}}>Confirm</button>
 
-          {/* <input
-            type="file"
-            onChange={handlebase64Image}/>
-          <img src={image}/> */}
-          <button>Confirm</button>
         </form>
       </div>
     </>
