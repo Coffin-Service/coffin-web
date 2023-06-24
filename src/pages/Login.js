@@ -46,8 +46,8 @@ const Login = () => {
   },[auth])
 
   useEffect(()=>{
-    console.log(loginDetail.name);
-    logOut();
+    console.log("login detail current : "+loginDetail);
+    // logOut();
     // getLoginDetailRole();
   },[])
 
