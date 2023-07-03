@@ -14,7 +14,7 @@ const PartCofServ = () => {
 
   const navigate = useNavigate();
   const location = useLocation();
-  const from = location.state?.from?.pathname || "/partner";
+  const from = location.state?.from?.pathname || "/partner/coffin/service_data";
 
   const [name, setName] = useState('');
   const [address, setAddress] = useState('');
@@ -88,7 +88,7 @@ const PartCofServ = () => {
           setQuantity('');
           setDesc('');
           setImage('');
-                  // navigate(from, { replace: true });
+                  navigate(from, { replace: true });
                 
               } catch (err) {
                   if (!err?.response) {
