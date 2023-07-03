@@ -104,7 +104,8 @@ const Login = () => {
                         {
                             setLoginDetail(res.data.data);
                             // console.log(res.data.data);
-                            const roles = res.data.data.name;
+                            // console.log(res.data.data.roles[0].name)
+                            const roles = res.data.data.roles[0].name;
                             setAuth({email, pwd, roles, AuthToken });
                             navigateRole(roles);
                         })
@@ -122,9 +123,10 @@ const Login = () => {
             function navigateRole(role){
                 // e.preventDefault();
                 // console.log("try to navigate to"+role);
-                if(role==="Admin"){navigate(fromAdm,{replace:true});}
+                // console.log("navigating to ",role)
+                if(role==="admin"){navigate(fromAdm,{replace:true});}
                 if(role==="funeral"){navigate(fromFuneral,{replace:true});}
-                if(role==="Coffin"){navigate(fromCoffin,{replace:true});}
+                if(role==="coffin"){navigate(fromCoffin,{replace:true});}
             }
 
             function logOut(){
