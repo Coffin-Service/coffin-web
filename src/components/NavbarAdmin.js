@@ -34,12 +34,20 @@ const NavbarAdmin=(props) =>{
         <NavMenu>
           <div className="selectedLink">
 
+          <NavLink to="/admin/dashboard">
+              Dashboard
+            </NavLink>
+
             <NavLink to="/admin/transaction">
               Transaction
             </NavLink>
           
             <NavLink to="/admin/account_management">
               Account Management
+            </NavLink>
+
+            <NavLink to="/admin/donation">
+              Donation
             </NavLink>
           </div>
         </NavMenu>

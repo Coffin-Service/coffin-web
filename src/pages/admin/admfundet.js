@@ -59,6 +59,7 @@ const AdmFunDetail = () => {
 
   return (
     <>
+    <div className='bg-image'>
       <NavbarAdmin user={loginDetail.name}/>
       <div style={{color:'black',marginLeft:'5%',marginTop:'3%'}}>
         {/* <h1>
@@ -133,6 +134,7 @@ const AdmFunDetail = () => {
           <img src=""/>
           <img src=""/>
         </div>
+      </div>
       </div>
     </>
   );

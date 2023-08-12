@@ -82,6 +82,7 @@ const PartCofServDataHisDet = () => {
 
   return (
     <>
+    <div className='bg-image'>
       <NavbarPartCof user={loginDetail.name}/>
       <div>
         {/* <h1>
@@ -133,9 +134,10 @@ const PartCofServDataHisDet = () => {
         <button onClick={(e)=>{
             e.preventDefault();
             delFunList(packageId)}} 
-            style={{color:'white',backgroundColor:'red',width:'8%',borderRadius:'30px',marginTop:'10%',marginRight:'15%',alignSelf:'flex-end'}}>
+            style={{color:'white',backgroundColor:'red',width:'8%',borderRadius:'30px',marginTop:'10%',marginLeft:'80%',alignSelf:'flex-end'}}>
               Delete
         </button>
+        </div>
     </>
   );
 };

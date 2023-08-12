@@ -196,6 +196,7 @@ const PartFunServDataHisEdit = () => {
   return (
     
     <>
+    <div className='bg-image'>
       <NavbarPartnerFuneral user={loginDetail.name}/>
       <div>
         {/* <h1>
@@ -301,7 +302,7 @@ const PartFunServDataHisEdit = () => {
               </tbody>
             </table>
 
-            <button style={{alignSelf:'flex-start',width:'10%',border:'none',borderRadius:'30px',backgroundColor:'#F3B792',marginRight:'20%'}}>
+            <button style={{alignSelf:'flex-start',width:'auto',border:'none',borderRadius:'30px',backgroundColor:'#F3B792',marginRight:'20%',paddingLeft:'2%',paddingRight:'2%'}}>
               {/* <Link> */}
                 Add Package
               {/* </Link> */}
@@ -309,6 +310,7 @@ const PartFunServDataHisEdit = () => {
 
           </form>
         </div>
+      </div>
       </div>
     </>
   );

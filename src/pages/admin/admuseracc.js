@@ -41,6 +41,7 @@ const AdmUserAcc = () => {
 
   return (
     <>
+    <div className='bg-image'>
     <AdminAcc/>
       {/* <div>
         <ul>
@@ -63,9 +64,10 @@ const AdmUserAcc = () => {
           <table className="center">
             <thead>
               <tr>
-                <th style={{width:'25%',borderBottom:'1px solid black'}}>Email</th>
+                <th style={{width:'20%',borderBottom:'1px solid black'}}>Email</th>
+                <th style={{width:'20%',borderBottom:'1px solid black'}}>Phone Number</th>
                 <th style={{width:'8%',borderBottom:'1px solid black'}}>Status</th>
-                <th style={{width:'20%',borderBottom:'1px solid black'}}>Transaction At</th>
+                <th style={{width:'20%',borderBottom:'1px solid black'}}>Issued At</th>
                 <th style={{width:'8%',borderBottom:'1px solid black'}}>Operating</th>
                 <th></th>
               </tr> 
@@ -84,6 +86,7 @@ const AdmUserAcc = () => {
               {userList.map((user,i)=>(
                   <tr>
                     <td style={{borderBottom:'1px solid black'}}>{user.email}</td>
+                    <td style={{borderBottom:'1px solid black'}}>{user.phone_number}</td>
                     <td style={{borderBottom:'1px solid black',textTransform:'capitalize'}}>{user.status}</td>
                     <td style={{borderBottom:'1px solid black'}}>{dateFormat(user.created_at,"dd mmmm yyyy")}</td>
                     <td style={{borderBottom:'1px solid black'}}><ToggleUserAcc key={i} user={user.id}/></td>
@@ -98,6 +101,7 @@ const AdmUserAcc = () => {
           </table>
         </div>
 
+      </div>
       </div>
     </>
   );

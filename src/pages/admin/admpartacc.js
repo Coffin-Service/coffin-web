@@ -56,6 +56,7 @@ const AdmPartAcc = () => {
 
   return (
     <>
+    <div className='bg-image'>
     <AdminAcc/> 
       
       <div>
@@ -67,7 +68,8 @@ const AdmPartAcc = () => {
           <table className="center">
             <thead>
               <tr>
-                <th style={{width:'25%',borderBottom:'1px solid black'}}>Email</th>
+                <th style={{width:'20%',borderBottom:'1px solid black'}}>Email</th>
+                <th style={{width:'20%',borderBottom:'1px solid black'}}>Phone Number</th>
                 <th style={{width:'8%',borderBottom:'1px solid black'}}>Status</th>
                 <th style={{width:'20%',borderBottom:'1px solid black'}}>Issued Date</th>
                 <th style={{width:'8%',borderBottom:'1px solid black'}}>Operating</th>
@@ -91,6 +93,7 @@ const AdmPartAcc = () => {
                   <tr>
                     
                     <td style={{borderBottom:'1px solid black'}}>{part.email}</td>
+                    <td style={{borderBottom:'1px solid black'}}>{part.phone_number}</td>
                     <td style={{borderBottom:'1px solid black',textTransform:'capitalize'}}>{part.status}</td>
                     <td style={{borderBottom:'1px solid black'}}>{dateFormat(part.created_at,"dd mmmm yyyy")}</td>
                     {/* <td>{JSON.stringify(part.is_operating)}</td> */}
@@ -107,6 +110,7 @@ const AdmPartAcc = () => {
           </table>
         </div>
 
+      </div>
       </div>
     </>
   );

@@ -9,6 +9,7 @@ import EditableRow from "./editRowFuneral";
 import './partner.css';
 import axios from "../../components/axios";
 import placeholder from "../../picture/placeholder.png"
+import './partner.css';
 
 const BASE_URL ="https://coffin-server-production.up.railway.app";
 const VIEW_URL = `${BASE_URL}/api/employee/funeral-services`;
@@ -200,6 +201,7 @@ const PartFunServ = () => {
   }
   return (
     <>
+    <div className='bg-image'>
       <NavbarPartnerFuneral user={loginDetail.name}/>
       <div className="font_color">
         {/* <h1>
@@ -235,13 +237,14 @@ const PartFunServ = () => {
           {/* <img src={placeholder} width={400} height={300} style={{alignSelf:'flex-end',padding:'1%',backgroundColor:'gray'}} onError={handleImgError}/> */}
 
         </div>
+        
+        <button style={{width:'10%',backgroundColor:'#F3B792',marginLeft:'85%',borderRadius:'30px'}} onClick={handleUpdate}>
+          Change
+        </button>
       </div>
 
         
-        <button style={{width:'10%',backgroundColor:'#F3B792',marginRight:'7%',alignSelf:'flex-end'}} onClick={handleUpdate}>
-          Update
-        </button>
-        
+    </div>
     </>
   );
 };

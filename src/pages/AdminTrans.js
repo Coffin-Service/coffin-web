@@ -30,6 +30,7 @@ const AdminTrans = () => {
 
     return (
         <>
+        <div className=''>
             <NavbarAdmin user={loginDetail.name}/>
             {/* <section>
                 <h1>Admins Page</h1>
@@ -46,7 +47,7 @@ const AdminTrans = () => {
                     to="/admin/transaction/funeral">Funeral Service</NavLink>
                     <NavLink style={{color:"black",textDecoration:"none",paddingLeft:"4rem"}} to="/admin/transaction/coffin">Coffin Service</NavLink>
                 </div>
-            
+        </div>
         </>
     )
 }

@@ -45,8 +45,16 @@ const PartCofServHis = () => {
         .catch(err=>console.log(err))
   }
   
+  function CommaAdd(amount){
+    return new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR"
+    }).format(amount);
+}
+
   return (
     <>
+    <div className='bg-image'>
       <NavbarPartCof user={loginDetail.name}/>
       <div>
         {/* <h1>
@@ -61,8 +69,11 @@ const PartCofServHis = () => {
                 <tr>
                   <th style={{borderBottom:'1px solid black',width:'18%'}}>Transaction No.</th>
                   <th style={{borderBottom:'1px solid black',width:'10%'}}>Status</th>
-                  <th style={{borderBottom:'1px solid black',width:'18%'}}>Transaction Date</th>
-                  <th style={{borderBottom:'1px solid black',width:'18%'}}>Coffin Name</th>
+                  <th style={{borderBottom:'1px solid black',width:'15%'}}>Order Date</th>
+                  <th style={{borderBottom:'1px solid black',width:'15%'}}>Coffin Name</th>
+                  <th style={{borderBottom:'1px solid black',width:'18%'}}>Price</th>
+                  <th style={{borderBottom:'1px solid black',width:'8%'}}>Quantity</th>
+                  <th style={{borderBottom:'1px solid black',width:'18%'}}>Name</th>
                   <th></th>
                 </tr>
               </thead>
@@ -87,16 +98,19 @@ const PartCofServHis = () => {
 
                 {cofList.map((cof)=>(
                   <tr>
-                    <td style={{borderBottom:'1px solid black'}}>{cof.id}</td>
-                    <td style={{borderBottom:'1px solid black',textTransform:'capitalize'}}>{cof.status}</td>
+                    <td style={{borderBottom:'1px solid black'}}>{cof?.id}</td>
+                    <td style={{borderBottom:'1px solid black',textTransform:'capitalize'}}>{cof?.status}</td>
                     <td style={{borderBottom:'1px solid black'}}>
                       {
-                        cof.transaction_at===null?`${dateFormat(cof.created_at,"d mmmm yyyy")}`:`${dateFormat(cof.transaction_at,"d mmmm yyyy")}`
+                        cof?.transaction_at===null?`${dateFormat(cof?.created_at,"d mmmm yyyy")}`:`${dateFormat(cof?.transaction_at,"d mmmm yyyy")}`
                       }
                       </td>
-                    <td style={{borderBottom:'1px solid black'}}>{cof.name}</td>
+                    <td style={{borderBottom:'1px solid black'}}>{cof?.name}</td>
+                    <td style={{borderBottom:'1px solid black'}}>{CommaAdd(cof?.total_amount)}</td>
+                    <td style={{borderBottom:'1px solid black'}}>{cof?.quantity}</td>
+                    <td style={{borderBottom:'1px solid black'}}>{cof?.user?.name}</td>
                     <td style={{textAlign:'left'}}>
-                      <button style={{margin:'auto',borderRadius:'40px',width:'110px',backgroundColor:'white'}}>
+                      <button style={{margin:'auto',borderRadius:'40px',width:'110px',backgroundColor:'transparent'}}>
                         <Link to="/partner/coffin/transaction/detail/" 
                           state={{transNo:cof.id}} style={{color:'black'}}>
                           Detail
@@ -115,6 +129,7 @@ const PartCofServHis = () => {
             <Link to="/partner/coffin/service">ADD</Link>
             </button>
         </div> */}
+      </div>
       </div>
     </>
   );

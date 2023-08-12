@@ -140,6 +140,9 @@ const PartFunServEdit = () => {
   // const errRef = useRef();
   const testId = useParams();
   
+  const [errorMsg, setErrorMsg] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [imageFocus, setImageFocus] = useState(false);
   // console.log(testId); 
   // const {getId}=location.state;
   // console.log(getId);
@@ -158,7 +161,15 @@ const PartFunServEdit = () => {
   },[])
 
   const handleImage= (e) =>{
-    if(e.target.files[0]){
+    const MAX_FILE_SIZE = 1024;
+    const fileSizeKiloBytes = e.target.files[0].size / 1024;
+    if(fileSizeKiloBytes>MAX_FILE_SIZE){
+      setErrMsg("Max file size is 1MB");
+      setIsSuccess(false);
+      return;
+    }
+
+    if(e.target.files[0]&&fileSizeKiloBytes<MAX_FILE_SIZE){
       // setImg({
       //   src: URL.createObjectURL(e.target.files[0]),
       //   alt: e.target.files[0].name,
@@ -170,6 +181,8 @@ const PartFunServEdit = () => {
       data.readAsDataURL(e.target.files[0])
     }
     // console.log(image)
+    setErrorMsg("");
+    setIsSuccess(true);
   }
   const handleImgError = () =>{
     setImage(placeholder);
@@ -255,6 +268,7 @@ const PartFunServEdit = () => {
 
   return (
     <>
+      <div className='bg-image'>
       <NavbarPartnerFuneral user={loginDetail.name}/>
       <div className="font_color">
         {/* <h1>
@@ -305,13 +319,20 @@ const PartFunServEdit = () => {
                   type="file"
                   accept=".png, .jpg, .jpeg" 
                   id='image'
-                  onChange={handleImage}/>
+                  onChange={handleImage}
+                  onFocus={() => setImageFocus(true)}
+                  onBlur={() => setImageFocus(false)}
+                  />
+                <p className={imageFocus && !isSuccess ? "instructions" : "offscreen"}>
+                  Max image size is 1MB<br />
+                </p>
               </div>
             </div>
-            <button type="submit" style={{width:'10%',backgroundColor:'#F3B792',alignSelf:'flex-end',marginRight:'7%'}}>Confirm</button>
+            <button type="submit" style={{width:'10%',backgroundColor:'#F3B792',alignSelf:'flex-end',marginRight:'7%',borderRadius:'30px'}}>Confirm</button>
         </form>
 
         
+      </div>
       </div>
     </>
   );

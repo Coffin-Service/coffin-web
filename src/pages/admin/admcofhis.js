@@ -87,7 +87,7 @@ const AdmCofHistory = () => {
             }
           </tbody>
         </div> */}
-
+        <div className='bg-image'>
         <AdminTrans/>
 
         <div style={{textAlign:"center"}}>
@@ -126,16 +126,19 @@ const AdmCofHistory = () => {
                     }
                     </td>
                     <td>{adm.name}</td>
-                    <td><button><Link to="/admin/transaction/coffin/detail/" 
+                    <td><button  style={{margin:'auto',borderRadius:'40px',width:'110px',backgroundColor:'transparent'}}>
+                      <Link to="/admin/transaction/coffin/detail/" 
                       state={{transNo:adm.id}} style={{color:'black'}}>
                         Detail
-                      </Link></button></td>
+                      </Link>
+                      </button></td>
                   </tr>
                 ))
               }   
             </tbody>
           </table>
         </div>
+      </div>
       </div>
     </>
   );

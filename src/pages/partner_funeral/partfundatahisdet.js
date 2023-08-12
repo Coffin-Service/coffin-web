@@ -113,6 +113,7 @@ const PartFunServDataHisDet = () => {
 
   return (
     <>
+    <div className='bg-image'>
     <NavbarPartFun user={loginDetail.name}/>
       <div>
         {/* <h1>
@@ -262,9 +263,10 @@ const PartFunServDataHisDet = () => {
         <button onClick={(e)=>{
             e.preventDefault();
             delFunList(packageId)}} 
-            style={{color:'white',backgroundColor:'red',width:'8%',borderRadius:'30px',marginTop:'10%',marginRight:'15%',alignSelf:'flex-end'}}>
+            style={{color:'white',backgroundColor:'red',width:'8%',borderRadius:'30px',marginTop:'10%',marginLeft:'75%'}}>
               Delete
         </button>
+        </div>
     </>
   );
 };

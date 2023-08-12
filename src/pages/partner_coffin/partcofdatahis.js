@@ -80,7 +80,7 @@ const PartCofServDataHis = () => {
   return (
 
       <>
-
+      <div className='bg-image'>
       {/* <h1>
         This is Coffin Service Data History Page for Partner
       </h1> */}
@@ -98,8 +98,8 @@ const PartCofServDataHis = () => {
                 <tr>
                   <th style={{width:'10%'}}>Coffin Name</th>
                   <th style={{width:'20%'}}>Address</th>
-                  <th style={{width:'5%'}}>Weight</th>
-                  <th style={{width:'25%'}}>Dimensions</th>
+                  <th style={{width:'10%'}}>Weight (kg)</th>
+                  <th style={{width:'20%'}}>Dimensions</th>
                   <th style={{width:'5%'}}>Quantity</th>
                   <th style={{width:'15%'}}>Price</th>
                   <th style={{width:'8%'}}>Detail</th>
@@ -135,7 +135,7 @@ const PartCofServDataHis = () => {
                     <td style={{borderTop:"1px solid #222"}}>{cof.quantity}</td>
                     <td style={{borderTop:"1px solid #222"}}>{CommaAdd(cof.price)}</td>
                     <td style={{borderTop:"1px solid #222"}}>
-                      <button style={{marginTop:'auto',borderRadius:'40px',width:'110px',backgroundColor:'white'}}>
+                      <button style={{marginTop:'auto',borderRadius:'40px',width:'110px',backgroundColor:'transparent'}}>
                         <Link to="/partner/coffin/service_data/detail" 
                           state={{packageId:cof.id,packageName:cof.name}} style={{color:'black'}}>
                           Detail
@@ -146,7 +146,7 @@ const PartCofServDataHis = () => {
                       <button onClick={(e)=>{
                       e.preventDefault();
                       delFunList(cof.id)}} 
-                      style={{backgroundColor:'white',border:'none',outline:'none',marginTop:'10px'}}>
+                      style={{backgroundColor:'transparent',border:'none',outline:'none',marginTop:'10px'}}>
                         <img src={bin}/>
                       </button>
                     </td>
@@ -157,12 +157,13 @@ const PartCofServDataHis = () => {
             </table>
         </div>
         
-        <div style={{color:'black',fontWeight:'bold',marginLeft:'3%',marginRight:'15%',padding:'1%',borderBottom:'1px solid gray'}}></div>
+        <div style={{color:'black',fontWeight:'bold',marginLeft:'3%',marginRight:'3%',padding:'1%',borderBottom:'1px solid gray'}}></div>
        
-          <button style={{width:'200px',borderRadius:'30px',backgroundColor:'#F3B792',marginLeft:'73%',alignSelf:'flex-end'}}>
-            <Link to="/partner/coffin/service" style={{color:'black'}}>ADD</Link>
+          <button style={{width:'auto',paddingLeft:'2%',paddingRight:'2%',borderRadius:'30px',backgroundColor:'#F3B792',marginLeft:'80%',alignSelf:'flex-end'}}>
+            <Link to="/partner/coffin/service" style={{color:'black'}}>Add</Link>
           </button>
         
+      </div>
       </div>
     </>
   );

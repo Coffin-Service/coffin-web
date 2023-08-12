@@ -106,6 +106,7 @@ const PartCofServ = () => {
 
   return (
     <>
+    <div className='bg-image'>
     <NavbarPartCof/>
       {/* <div>
         <ul>
@@ -241,6 +242,7 @@ const PartCofServ = () => {
             <button style={{alignSelf:'flex-end',width:'10%',border:'none',borderRadius:'30px',backgroundColor:'#F3B792',marginRight:'20%'}}>Confirm</button>
 
         </form>
+      </div>
       </div>
     </>
   );

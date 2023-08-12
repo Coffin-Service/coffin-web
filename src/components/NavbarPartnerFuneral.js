@@ -34,7 +34,10 @@ const NavbarPartFun=(props) =>{
       <Nav>
         <NavMenu>
           <div className="selectedLink">
-          <NavLink to="/partner/funeral/service" activeStyle style={{marginLeft:"0rem", whiteSpace:'nowrap'}}>
+          <NavLink to="/partner/funeral/dashboard"  activeStyle style={{marginLeft:"0rem", whiteSpace:'nowrap'}}>
+            Dashboard
+          </NavLink>
+          <NavLink to="/partner/funeral/service" activeStyle style={{whiteSpace:'nowrap'}}>
             Funeral Service
           </NavLink>
           <NavLink to="/partner/funeral/transaction" activeStyle style={{whiteSpace: "nowrap"}}>

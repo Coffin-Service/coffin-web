@@ -1,18 +1,18 @@
 import React, {useEffect,useState} from "react"
 import { Link } from "react-router-dom"
-import NavbarPartnerFuneral from "../../components/NavbarPartnerFuneral"
+import NavbarAdmin from "../../components/NavbarAdmin"
 import data from "../../mock-data-funeral-trans.json"
 import axios from "../../components/axios"
 import dateFormat from "dateformat"
 
 const BASE_URL ="https://coffin-server-production.up.railway.app";
-const FUN_URL = `${BASE_URL}/api/employee/funeral-transactions`;
+const DONO_URL = `${BASE_URL}/api/employee/donation-transactions`;
 const LOGIN_DETAIL_URL = `${BASE_URL}/api/employee/me`;
 
-const PartFunServHis = () => {
+const DonationHis = () => {
   const [trans,setTrans]=useState(data);
 
-  const [funList,setFunList]=useState([]);
+  const [donoList,setDonoList]=useState([]);
   const [loginDetail,setLoginDetail]=useState([]);
 
   useEffect(()=>{
@@ -23,13 +23,13 @@ const PartFunServHis = () => {
 
   const AuthToken = 'Bearer '.concat(localStorage.getItem('token'))
   function refreshFunList(){
-    const cofAPI = axios.get(FUN_URL,
+    const cofAPI = axios.get(DONO_URL,
     {
       headers:{'Authorization':AuthToken}
     })
       .then(res=>{
-        setFunList(res.data.data);
-        console.log(funList);
+        setDonoList(res.data.data);
+        console.log(donoList);
       })
       // .then(res =>console.log( res.data.data[0]))
       .catch(err=>console.log(err))
@@ -50,18 +50,17 @@ const PartFunServHis = () => {
   function dateIsValid(date){
     return date instanceof Date && !isNaN(date);
   }
-
+  
   function CommaAdd(amount){
     return new Intl.NumberFormat("id-ID", {
       style: "currency",
       currency: "IDR"
     }).format(amount);
-  }
-
+}
   return (
     <>
     <div className='bg-image'>
-    <NavbarPartnerFuneral user={loginDetail.name}/>
+    <NavbarAdmin user={loginDetail.name}/>
       <div>
         {/* <h1>
           This is Funeral Service Transaction History Page for Partner
@@ -75,11 +74,9 @@ const PartFunServHis = () => {
               <tr>
                 <th style={{borderBottom:'1px solid black',width:'18%'}}>Transaction No.</th>
                 <th style={{borderBottom:'1px solid black',width:'10%'}}>Status</th>
-                <th style={{borderBottom:'1px solid black',width:'18%'}}>Transaction Date</th>
-                <th style={{borderBottom:'1px solid black',width:'18%'}}>Price</th>
-                <th style={{borderBottom:'1px solid black',width:'18%'}}>Package Name</th>
-                <th style={{borderBottom:'1px solid black',width:'18%'}}>Category</th>
-                <th style={{borderBottom:'1px solid black',width:'18%'}}>Name</th>
+                <th style={{borderBottom:'1px solid black',width:'18%'}}>Created Date</th>
+                <th style={{borderBottom:'1px solid black',width:'18%'}}>Expired Date</th>
+                <th style={{borderBottom:'1px solid black',width:'18%'}}>Amount</th>
                 <th></th>
               </tr>
             </thead>
@@ -102,26 +99,24 @@ const PartFunServHis = () => {
                 </tr>
               ))} */}
 
-              {funList.map((fun)=>(
+              {donoList.map((dono)=>(
                   <tr>
-                    <td style={{borderBottom:'1px solid black'}}>{fun.id}</td>
-                    <td style={{borderBottom:'1px solid black',textTransform:'capitalize'}}>{fun.status}</td>
+                    <td style={{borderBottom:'1px solid black'}}>{dono.id}</td>
+                    <td style={{borderBottom:'1px solid black',textTransform:'capitalize'}}>{dono.status}</td>
                     <td style={{borderBottom:'1px solid black'}}>
                       {
+                        dateFormat(dono.start_at,"d mmmm yyyy")
                         // dateFormat(fun.transaction_at,"d mmmm yyyy")
                         // console.log(dateIsValid(new {fun.transaction_at}))
-                        fun.transaction_at===null?`${dateFormat(fun.created_at,"d mmmm yyyy")}`:`${dateFormat(fun.transaction_at,"d mmmm yyyy")}`
+                        // dono.transaction_at===null?`${dateFormat(dono.created_at,"d mmmm yyyy")}`:`${dateFormat(dono.transaction_at,"d mmmm yyyy")}`
                       }
                     </td>
-                    <td style={{borderBottom:'1px solid black'}}>{CommaAdd(fun.price)}</td>
-                    <td style={{borderBottom:'1px solid black'}}>{fun.name}</td>
-                    <td style={{borderBottom:'1px solid black'}}>{fun.category_name}</td>
-                    <td style={{borderBottom:'1px solid black'}}>{fun.user.name}</td>
-                    <td></td>
+                    <td style={{borderBottom:'1px solid black',textTransform:'capitalize'}}>{dateFormat(dono.end_at,"d mmmm yyyy")}</td>
+                    <td style={{borderBottom:'1px solid black',textTransform:'capitalize'}}>{CommaAdd(dono.total_complete_donation)}</td>
                     <td style={{textAlign:'left'}}>
                       <button style={{margin:'auto',borderRadius:'40px',width:'110px',backgroundColor:'transparent'}}>
-                        <Link to="/partner/funeral/transaction/detail/" 
-                          state={{transNo:fun.id}} style={{color:'black'}}>
+                        <Link to="/admin/donation/detail" 
+                          state={{transNo:dono.id}} style={{color:'black'}}>
                             Detail
                         </Link>
                       </button></td>
@@ -137,4 +132,4 @@ const PartFunServHis = () => {
   );
 };
 
-export default PartFunServHis;
+export default DonationHis;

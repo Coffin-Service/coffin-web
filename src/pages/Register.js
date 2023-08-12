@@ -8,6 +8,7 @@ import './style.css';
 const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+const PHONE_REGEX = /(^\d{9,15}$)|(^\d{5}-\d{4}$)/;
 const BASE_URL ="https://coffin-server-production.up.railway.app/";
 const REGISTER_URL = `${BASE_URL}api/employee/auth/register`;
 
@@ -35,6 +36,10 @@ const Register = () => {
   const [validEmail, setValidEmail] = useState(true);
   const [emailFocus, setEmailFocus]=useState(false);
 
+  const [phone, setPhone]=useState('');
+  const [validPhone, setValidPhone] = useState(true);
+  const [phoneFocus, setPhoneFocus]=useState(false);
+
   const [funeral,setFuneral]=useState(false);
   const [coffin,setCoffin]=useState(false);
 
@@ -55,6 +60,10 @@ const Register = () => {
     setValidEmail(EMAIL_REGEX.test(email));
   }, [email])
 
+  useEffect(()=>{
+    setValidPhone(PHONE_REGEX.test(phone));
+  }, [phone])
+
   useEffect(() => {
       setErrMsg('');
   }, [user, pwd, matchPwd, email])
@@ -67,6 +76,7 @@ const Register = () => {
       const v1 = USER_REGEX.test(user);
       const v2 = PWD_REGEX.test(pwd);
       const v3 = EMAIL_REGEX.test(email);
+      const v4 = PHONE_REGEX.test(phone);
       
       if (!v1 || !v2 || !v3) {
           setErrMsg("Invalid Entry");
@@ -74,7 +84,7 @@ const Register = () => {
       }
       try {
           const response = await axios.post(REGISTER_URL,
-              { name:user, email:email, password:pwd, type:funeral?'funeral':'coffin'},
+              { name:user, email:email, password:pwd, phone_number:phone , type:funeral?'funeral':'coffin'},
               {
                 header:{}
               }
@@ -98,6 +108,7 @@ const Register = () => {
           setPwd('');
           setMatchPwd('');
           setEmail('');
+          setPhone('');
           
       } catch (err) {
           if (!err?.response) {
@@ -151,6 +162,7 @@ const Register = () => {
                       <input
                           type="text"
                           id="username"
+                          placeholder="John"
                           ref={userRef}
                           autoComplete="off"
                           onChange={(e) => setUser(e.target.value)}
@@ -166,7 +178,8 @@ const Register = () => {
                           <FontAwesomeIcon icon={faInfoCircle} />
                           4 to 24 characters.<br />
                           Must begin with a letter.<br />
-                          Letters, numbers, underscores, hyphens allowed.
+                          Letters, numbers, underscores, <br/>
+                          hyphens allowed.
                       </p>
 
                       <label htmlFor="email" style={{margin:'auto',padding:'10px'}}>
@@ -177,7 +190,7 @@ const Register = () => {
                       <input
                           type="text"
                           id="email"
-                          
+                          placeholder="John@gmail.com"
                           autoComplete="off"
                           onChange={(e) => setEmail(e.target.value)}
                           value={email}
@@ -193,6 +206,30 @@ const Register = () => {
                           Invalid email format
                       </p>
 
+                      <label htmlFor="phone" style={{margin:'auto',padding:'10px'}}>
+                          Phone Number
+                          <FontAwesomeIcon icon={faCheck} className={validPhone ? "valid" : "hide"} />
+                          <FontAwesomeIcon icon={faTimes} className={validPhone || !phone ? "hide" : "invalid"} />
+                      </label>
+                      <input
+                          type="text"
+                          id="phone"
+                          placeholder="0812345678"
+                          autoComplete="off"
+                          onChange={(e) => setPhone(e.target.value)}
+                          value={phone}
+                          required
+                          aria-invalid={validPhone ? "false" : "true"}
+                          aria-describedby="uidnote"
+                          onFocus={() => setPhoneFocus(true)}
+                          onBlur={() => setPhoneFocus(false)}
+                          style={{borderRadius:'20px'}}
+                      />
+                      <p id="phonenote" className={phoneFocus && phone && !validPhone ? "instructions" : "offscreen"}>
+                          <FontAwesomeIcon icon={faInfoCircle} />
+                          Invalid phone number
+                      </p>
+
                       <label htmlFor="password"  style={{margin:'auto',padding:'10px'}}>
                           Password
                           <FontAwesomeIcon icon={faCheck} className={validPwd ? "valid" : "hide"} />
@@ -201,6 +238,7 @@ const Register = () => {
                       <input
                           type="password"
                           id="password"
+                          placeholder="Password"
                           onChange={(e) => setPwd(e.target.value)}
                           value={pwd}
                           required
@@ -213,8 +251,11 @@ const Register = () => {
                       <p id="pwdnote" className={pwdFocus && !validPwd ? "instructions" : "offscreen"}>
                           <FontAwesomeIcon icon={faInfoCircle} />
                           8 to 24 characters.<br />
-                          Must include uppercase and lowercase letters, a number and a special character.<br />
-                          Allowed special characters: <span aria-label="exclamation mark">!</span> <span aria-label="at symbol">@</span> <span aria-label="hashtag">#</span> <span aria-label="dollar sign">$</span> <span aria-label="percent">%</span>
+                          Must include uppercase and <br/>
+                          lowercase letters, a number and <br/>
+                          a special character.<br />
+                          Allowed special characters: <br/>
+                          <span aria-label="exclamation mark">!</span> <span aria-label="at symbol">@</span> <span aria-label="hashtag">#</span> <span aria-label="dollar sign">$</span> <span aria-label="percent">%</span>
                       </p>
 
 
@@ -226,6 +267,7 @@ const Register = () => {
                       <input
                           type="password"
                           id="confirm_pwd"
+                          placeholder="Password"
                           onChange={(e) => setMatchPwd(e.target.value)}
                           value={matchPwd}
                           required
@@ -237,7 +279,8 @@ const Register = () => {
                       />
                       <p id="confirmnote" className={matchFocus && !validMatch ? "instructions" : "offscreen"}>
                           <FontAwesomeIcon icon={faInfoCircle} />
-                          Must match the first password input field.
+                          Must match the first <br/> 
+                          password input field.
                       </p>
                       
                       <div style={{display:'flex',flexDirection:'row',borderRadius:'10px',marginTop:'5%'}}>

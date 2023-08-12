@@ -31,6 +31,7 @@ const AdminAcc = () => {
 
     return (
         <>
+        <div className=''>
             <NavbarAdmin user={loginDetail.name}/>
             {/* <section>
                 <h1>Admins Accound Page</h1>
@@ -52,7 +53,7 @@ const AdminAcc = () => {
                     to="/admin/account_management/user">User</NavLink>
                     <NavLink style={{color:'black',textDecoration:"none",paddingLeft:"4rem"}} to="/admin/account_management/partner">Partner</NavLink>
             </div>
-
+        </div>
             
         </>
     )

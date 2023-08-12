@@ -37,7 +37,10 @@ const NavbarPartCof=(props) =>{
             Coffin Service
           </NavLink> */}
           <div className="selectedLink">
-          <NavLink to="/partner/coffin/transaction" activeStyle style={{marginLeft:"0rem", whiteSpace: "nowrap"}}>
+          <NavLink to="/partner/coffin/dashboard" activeStyle style={{marginLeft:"0rem", whiteSpace: "nowrap"}}>
+            Dashboard
+          </NavLink>
+          <NavLink to="/partner/coffin/transaction" activeStyle style={{whiteSpace: "nowrap"}}>
             Coffin Transaction
           </NavLink>
           <NavLink to="/partner/coffin/service_data" activeStyle style={{whiteSpace: "nowrap"}}>

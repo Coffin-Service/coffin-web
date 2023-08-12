@@ -5,7 +5,9 @@ import axios from "../components/axios";
 import { useEffect,useRef,useState } from "react";
 import { Nav } from "../components/NavbarElements";
 
-const PROF_URL = 'https://coffin-server-production.up.railway.app/api/employee/me/update-profile';
+const BASE_URL ="https://coffin-server-production.up.railway.app/";
+const PROF_URL = `${BASE_URL}api/employee/me/update-profile`;
+const LOGIN_DETAIL_URL = `${BASE_URL}api/employee/me`;
 
 const EditProfile = () => {
   const navigate = useNavigate();
@@ -17,10 +19,13 @@ const EditProfile = () => {
 
   useEffect(() => {
     userRef.current.focus();
+    getLoginDetailRole();
 }, [])
 
+  const [loginDetail,setLoginDetail]=useState([]);
   const [name, setName] = useState('');
   const [email,setEmail]=useState('');
+  const [phone,setPhone]=useState('');
   const [errMsg, setErrMsg] = useState('');
 
   const AuthToken = 'Bearer '.concat(localStorage.getItem('token'))
@@ -31,7 +36,7 @@ const EditProfile = () => {
     console.log(localStorage.getItem('token'));
     try {
       const response = await axios.patch(PROF_URL,
-        {name:name, email:email },
+        {name:name, email:email , phone_number:phone},
         {headers:{'Authorization':AuthToken}}
       )
               console.log(response);
@@ -47,16 +52,32 @@ const EditProfile = () => {
                 if (!err?.response) {
                     setErrMsg('No Server Response');
                 } else if (err.response?.status === 400) {
-                    setErrMsg('Missing Username or Password');
+                    setErrMsg('Missing Email, Name or Phone Number');
                 } else if (err.response?.status === 401) {
                     setErrMsg('Unauthorized');
                 } else {
-                    setErrMsg('Login Failed');
+                    setErrMsg('Process Failed');
                 }
                 errRef.current.focus();
             }
         }
-    
+        function getLoginDetailRole(){
+          // console.log(localStorage.getItem('token'));
+          const AuthToken = 'Bearer '.concat(localStorage.getItem('token'))
+          const getRole = axios.get(LOGIN_DETAIL_URL,{
+              headers:{'Authorization':AuthToken}
+            })
+            .then(res=>
+              {
+                setLoginDetail(res.data.data);
+                setEmail(res.data.data.email);
+                setName(res.data.data.name);
+                setPhone(res.data.data.phone_number);
+              })
+            // .then(res=>console.log(res.data.data))
+            // .then(data=>console.log(data))
+            .catch(err=>console.log(err))
+      }
     // const postPass = axios.put(PROF_URL,{
     //   headers:{'Authorization':AuthToken}
     // })
@@ -103,6 +124,17 @@ const EditProfile = () => {
                   autoComplete="off" 
                   onChange={(e) => setName(e.target.value)}
                   value={name}
+                  required
+                  style={{borderRadius:'30px',border:'none',paddingLeft:'5%',paddingRight:'5%'}}
+              />
+
+              <label htmlFor="phone">Phone Number</label>
+              <input
+                  type="text"
+                  id="phone"
+                  autoComplete="off" 
+                  onChange={(e) => setPhone(e.target.value)}
+                  value={phone}
                   required
                   style={{borderRadius:'30px',border:'none',paddingLeft:'5%',paddingRight:'5%'}}
               />

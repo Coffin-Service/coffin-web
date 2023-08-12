@@ -58,6 +58,7 @@ const PartCofServHisDet = () => {
 
   return (
     <>
+    <div className='bg-image'>
     <NavbarPartCof user={loginDetail.name}/>
     <div className="font_color">
       {/* <h1>
@@ -75,22 +76,20 @@ const PartCofServHisDet = () => {
           </thead>
           <tbody>
 
-
+              <tr>
+                <td style={{fontWeight:'bold'}}>Status</td>
+                <td style={{textTransform:'capitalize'}}>{cofList?.status}</td>
+              </tr>
               <tr>
                 <td  style={{width:'15%',fontWeight:'bold'}}>Coffin Name:</td>
                 <td>{cofList?.name}</td>
-              </tr>
-              
-              <tr>
-                <td style={{fontWeight:'bold'}}>Price (Rp)</td>
-                <td>{CommaAdd(cofList?.price)}</td>
               </tr>
               <tr>
                 <td style={{fontWeight:'bold'}}>Transaction No</td>
                 <td>{cofList?.transaction_id}</td>
               </tr>
               <tr>
-                <td style={{fontWeight:'bold'}}>Transaction at</td>
+                <td style={{fontWeight:'bold'}}>Transaction date</td>
                 <td>
                   {
                     cofList?.transaction_at===null?`${dateFormat(cofList?.created_at,"d mmmm yyyy")}`:`${dateFormat(cofList?.created_at,"d mmmm yyyy")}`
@@ -101,9 +100,35 @@ const PartCofServHisDet = () => {
                 <td style={{fontWeight:'bold'}}>Delivery Location</td>
                 <td>{cofList?.delivery_address}</td>
               </tr>
+              
               <tr>
-                <td style={{fontWeight:'bold'}}>Status</td>
-                <td>{cofList?.status}</td>
+                <td style={{fontWeight:'bold'}}>Price (Rp)</td>
+                <td>{CommaAdd(cofList?.price)}</td>
+              </tr>
+              <tr>
+                <td style={{fontWeight:'bold'}}>Shipping (Rp)</td>
+                <td>{CommaAdd(cofList?.shipping_fee)}</td>
+              </tr>
+              <tr>
+                <td style={{fontWeight:'bold'}}>Total Price (Rp)</td>
+                <td>{CommaAdd(cofList?.total_amount)}</td>
+              </tr>
+              <tr>
+                <td style={{fontWeight:'bold'}}>Quantity</td>
+                <td>{cofList?.quantity}</td>
+              </tr>
+              <div style={{borderBottom:'1px solid black',marginTop:'5%'}}>Buyer Detail</div>
+              <tr>
+                <td style={{fontWeight:'bold'}}>Name</td>
+                <td>{cofList?.user.name}</td>
+              </tr>
+              <tr>
+                <td style={{fontWeight:'bold'}}>Email</td>
+                <td>{cofList?.user.email}</td>
+              </tr>
+              <tr>
+                <td style={{fontWeight:'bold'}}>Phone</td>
+                <td>{cofList?.user.phone_number}</td>
               </tr>
 
 
@@ -111,6 +136,7 @@ const PartCofServHisDet = () => {
         </table>
 
         
+    </div>
     </div>
     </>
   );

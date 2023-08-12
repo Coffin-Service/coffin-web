@@ -22,6 +22,8 @@ import AdmCofDetail from './pages/admin/admcofdet';
 import AdmFunDetail from './pages/admin/admfundet';
 import AdmUserAcc from './pages/admin/admuseracc';
 import AdmPartAcc from './pages/admin/admpartacc';
+import DonationHis from './pages/admin/donationhis.js';
+import DonationHisDet from './pages/admin/donationhisdet.js';
 
 import PartFun from './pages/partner_funeral/partfun.js';
 import PartFunServ from './pages/partner_funeral/partfunserv';
@@ -109,7 +111,7 @@ function App() {
 
         <Route path="partner" element={<Partner />} />
         {/* <Route element={<RequireAuth allowedRoles={[ROLES.Funeral]} />}> */}
-          <Route path='/partner/funeral' element={<PartFun/>}/>
+          <Route path='/partner/funeral/dashboard' element={<PartFun/>}/>
           <Route path='/partner/funeral/service' element={<PartFunServ/>}/>
           <Route path='/partner/funeral/service/edit/:id' element={<PartFunServEdit/>}/>
           <Route path='/partner/funeral/transaction' element={<PartFunServHis/>}/>
@@ -120,7 +122,7 @@ function App() {
         {/* </Route> */}
 
         {/* <Route element={<RequireAuth allowedRoles={[ROLES.Coffin]} />}> */}
-          <Route path='/partner/coffin' element={<PartCof/>}/>
+          <Route path='/partner/coffin/dashboard' element={<PartCof/>}/>
           <Route path='/partner/coffin/service' element={<PartCofServ/>}/>
           <Route path='/partner/coffin/transaction' element={<PartCofServHis/>}/>
           <Route path='/partner/coffin/transaction/detail' element={<PartCofServHisDet/>}/>
@@ -131,7 +133,7 @@ function App() {
 
         {/* <Route element={<RequireAuth allowedRoles={[ROLES.Admin]} />}> */}
         {/* <Route element={<RequireAuth allowedRoles={[ROLES.Admin]}/>}> */}
-          <Route path="admin" element={<Admin />} />
+          <Route path="/admin/dashboard" element={<Admin />} />
           <Route path="/admin/account_management" element={<AdminAcc/>}/>
           <Route path="/admin/transaction" element={<AdminTrans/>}/>
           <Route path='/admin/transaction/funeral' element={<AdmFunHistory/>}/>
@@ -140,6 +142,8 @@ function App() {
           <Route path='/admin/transaction/coffin/detail' element={<AdmCofDetail/>}/>
           <Route path='/admin/account_management/user' element={<AdmUserAcc/>}/>
           <Route path='/admin/account_management/partner' element={<AdmPartAcc/>}/>
+          <Route path="/admin/donation" element={<DonationHis/>}/>
+          <Route path="/admin/donation/detail" element={<DonationHisDet/>}/>
         {/* </Route> */}
 
         {/* <Route element={<RequireAuth allowedRoles={[ROLES.Editor, ROLES.Admin]} />}> */}

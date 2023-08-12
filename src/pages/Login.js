@@ -16,9 +16,9 @@ const Login = () => {
 
   const navigate = useNavigate();
   const location = useLocation();
-  const fromAdm = location.state?.from?.pathname || "/admin";
-  const fromFuneral = location.state?.from?.pathname || "/partner/funeral";
-  const fromCoffin = location.state?.from?.pathname || "/partner/coffin";
+  const fromAdm = location.state?.from?.pathname || "/admin/dashboard";
+  const fromFuneral = location.state?.from?.pathname || "/partner/funeral/dashboard";
+  const fromCoffin = location.state?.from?.pathname || "/partner/coffin/dashboard";
 
   const userRef = useRef();
   const errRef = useRef();

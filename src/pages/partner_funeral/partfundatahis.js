@@ -8,6 +8,7 @@ import ReadOnlyRow from "./readRowFuneral";
 import axios from "../../components/axios";
 import e from "cors";
 import bin from "../../picture/Trash.png"
+import './partner.css';
 
 const BASE_URL ="https://coffin-server-production.up.railway.app";
 const FUN_URL = `${BASE_URL}/api/employee/funeral-packages`;
@@ -111,6 +112,7 @@ const PartFunServDataHis = () => {
   return (
     
     <>
+      <div className='bg-image'>
       <NavbarPartnerFuneral user={loginDetail.name}/>
       <div>
         {/* <h1>
@@ -200,7 +202,7 @@ const PartFunServDataHis = () => {
                   </td>
                   
                   <td style={{borderTop:"1px solid #222"}}>
-                    <button style={{marginTop:'auto',borderRadius:'40px',width:'110px',backgroundColor:'white'}}>
+                    <button style={{marginTop:'auto',borderRadius:'40px',width:'110px',backgroundColor:'transparent'}}>
                       <Link to="/partner/funeral/service_data/detail" 
                         state={{packageId:fun.id,packageName:fun.name}} style={{color:'black'}}>
                           Detail
@@ -212,7 +214,7 @@ const PartFunServDataHis = () => {
                     <button onClick={(e)=>{
                       e.preventDefault();
                       delFunList(fun.id)}}
-                      style={{backgroundColor:'white',border:'none',outline:'none',marginTop:'10px'}}>
+                      style={{backgroundColor:'transparent',border:'none',outline:'none',marginTop:'10px'}}>
                       <img src={bin}/>
                     </button>
                   </td>
@@ -231,6 +233,7 @@ const PartFunServDataHis = () => {
           </button>
           </form>
         </div>
+      </div>
       </div>
     </>
   );

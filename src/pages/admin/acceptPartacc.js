@@ -101,15 +101,15 @@ const AcceptPartAcc = (props) => {
         checked={operate}
         onChange={()=>handleChange()}
       /> */}
-      <div style={{display:'flex',flexDirection:'row',backgroundColor:'white',borderRadius:'10px'}}>
-        <button style={{margin:'auto',border:'none',outline:'none',backgroundColor:'#E5E5E5',color:'green',fontWeight:'bold',backgroundColor:'#E5E5E5',display:action?'':'none'}} onClick={()=>action?handleAccept():null}>
+      <div style={{display:'flex',flexDirection:'row',backgroundColor:'transparent',borderRadius:'10px'}}>
+        <button style={{margin:'auto',border:'none',outline:'none',backgroundColor:'transparent',color:'green',fontWeight:'bold',display:action?'':'none'}} onClick={()=>action?handleAccept():null}>
           Accept
         </button>
-        <button style={{margin:'auto',border:'none',outline:'none',backgroundColor:'w#E5E5E5',color:'red',fontWeight:'bold',backgroundColor:'#E5E5E5',display:action?'':'none'}} onClick={()=>action?handleDeny():null}>
+        <button style={{margin:'auto',border:'none',outline:'none',backgroundColor:'transparent',color:'red',fontWeight:'bold',display:action?'':'none'}} onClick={()=>action?handleDeny():null}>
           Deny {console.log()}
         </button>
         {/* need to fix later */}
-        <div style={{display:!action?'':'none',margin:'auto',backgroundColor:'white'}}>
+        <div style={{display:!action?'':'none',margin:'auto',backgroundColor:'transparent'}}>
           Done
         </div>
       </div>

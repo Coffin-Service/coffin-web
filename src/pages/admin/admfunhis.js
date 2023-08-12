@@ -75,6 +75,7 @@ const AdmFunHistory = () => {
   // };
   return (
     <>
+    <div className='bg-image'>
       <AdminTrans/>
       {/* <div>
         <ul>
@@ -116,7 +117,7 @@ const AdmFunHistory = () => {
                     </td>
                     <td>{adm.name}</td>
                     <td>
-                    <button>
+                    <button style={{margin:'auto',borderRadius:'40px',width:'110px',backgroundColor:'transparent'}}>
                       <Link to="/admin/transaction/funeral/detail/" 
                       state={{transNo:adm.id}} style={{color:'black'}}>
                         Detail
@@ -129,6 +130,7 @@ const AdmFunHistory = () => {
             </tbody>
           </table>
         </div>
+      </div>
       </div>
     </>
   );
