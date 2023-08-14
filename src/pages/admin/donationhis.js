@@ -99,7 +99,7 @@ const DonationHis = () => {
                 </tr>
               ))} */}
 
-              {donoList.map((dono)=>(
+              {donoList.map((dono)=>(dono.total_complete_donation>0)?(
                   <tr>
                     <td style={{borderBottom:'1px solid black'}}>{dono.id}</td>
                     <td style={{borderBottom:'1px solid black',textTransform:'capitalize'}}>{dono.status}</td>
@@ -121,7 +121,7 @@ const DonationHis = () => {
                         </Link>
                       </button></td>
                   </tr>
-                ))
+                ):(null))
               }   
             </tbody>
           </table>

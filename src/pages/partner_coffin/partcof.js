@@ -133,7 +133,7 @@ const PartCof = () => {
                                 <td></td>
                                 <td style={{textAlign:'left'}}>
                                 <button style={{margin:'auto',borderRadius:'40px',width:'110px',backgroundColor:'transparent'}}>
-                                    <Link to="/partner/funeral/transaction/detail/" 
+                                    <Link to="/partner/coffin/transaction/detail" 
                                     state={{transNo:cof.id}} style={{color:'black'}}>
                                         Detail
                                     </Link>

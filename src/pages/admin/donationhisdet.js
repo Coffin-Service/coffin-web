@@ -127,6 +127,30 @@ const DonationHisDet = () => {
                   <td style={{fontWeight:'bold'}}>Phone Number</td>
                   <td>{donoList?.user?.phone_number}</td>
                 </tr>
+
+                <div style={{borderBottom:'1px solid black', paddingTop:'5%'}}>Donater List</div>
+
+                
+                {
+                  donoList?.transactions?.map((alldono)=>(
+                    <tr>
+                      {/* <tr> */}
+                        <td>
+                          <tr style={{fontWeight:'bold'}}>
+                            ID
+                          </tr>
+                          <tr style={{fontWeight:'bold'}}>
+                            Amount
+                          </tr>
+                        </td>
+                        <td>
+                          <tr>{alldono?.id}</tr>
+                          <tr>{CommaAdd(alldono?.amount)}</tr>
+                        </td>
+                    </tr>
+                  ))
+                }
+                    
                 
           </tbody>
         </table>
